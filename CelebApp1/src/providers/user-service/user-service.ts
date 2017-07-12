@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import * as firebase from 'firebase';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
+
 
 /*
   Generated class for the UserServiceProvider provider.
@@ -17,11 +20,24 @@ public fireAuth:any;
 public userProfile: any;
 
 
-  constructor(public http: Http) {
+  constructor(public http: Http, public afd:AngularFireDatabase) {
     this.fireAuth = firebase.auth();
     this.userProfile = firebase.database().ref('users');
     console.log('Hello UserServiceProvider Provider');
   }
+
+  getShoppingItems() {
+    return this.afd.list('/shoppingItems/');
+  }
+ 
+  addItem(name) {
+    this.afd.list('/shoppingItems/').push(name);
+  }
+ 
+  removeItem(id) {
+    this.afd.list('/shoppingItems/').remove(id);
+  }
+
   
 signUpUser(email: string,password: string){
   return this.fireAuth.createUserWithEmailAndPassword(email, password).
@@ -75,4 +91,21 @@ logoutUser(){
   }
 
 
+}
+
+export class FirebaseProvider {
+ 
+  constructor(public afd: AngularFireDatabase) { }
+ 
+  getShoppingItems() {
+    return this.afd.list('/shoppingItems/');
+  }
+ 
+  addItem(name) {
+    this.afd.list('/shoppingItems/').push(name);
+  }
+ 
+  removeItem(id) {
+    this.afd.list('/shoppingItems/').remove(id);
+  }
 }
