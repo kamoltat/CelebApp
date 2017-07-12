@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    
+    <ion-title>Profile</ion-title>
+      <ion-buttons start (click) = "logUserOut()">
+        <button>
+        <ion-icon name="log-out"></ion-icon> Logout
+        </button>
+      </ion-buttons>
+      <button start (click) = "goToCreateProfile()">
+      <ion-icon name= "hammer"></ion-icon> Edit
+      </button>
+      
+      
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+<ion-card text-center>
+  <img src = "img/nobody_profile_image.jpg"style="margin:auto; margin-top: 20px; border-radius:500px; height
+  : 200px; width: 200px; "/>
+  <ion-card-title>{{(profileData | async)?.firstname}} {{(profileData | async)?.lastname}}
+  </ion-card-title>
+  <ion-card-content>
+    <p>
+    </p>  
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-header>
+    My Details
+    <ion-list>
+      <button ion-item>
+        <ion-icon name="list"></ion-icon>19 years old
+      </button>
+    </ion-list>
+    <ion-list>
+      <button ion-item>
+       <ion-icon name="logo-buffer"></ion-icon> 6 feet 0 inches
+      </button> 
+    </ion-list>
+    <ion-list>
+      <button ion-item>
+        <ion-icon name="globe"></ion-icon>Thailand
+      </button>
+    </ion-list>
+  </ion-card-header>
+</ion-card>
+<button ion-button>Follow</button>
+</ion-content>
