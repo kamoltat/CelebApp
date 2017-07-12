@@ -25,7 +25,6 @@ createProfile(){
     this.afAuth.authState.take(1).subscribe(auth => {
         this.afDatabase.object("profile/"+auth.uid).set(this.profile)
         .then(() => this.navCtrl.push(TabsPage))
-    
     });
 }   
 
