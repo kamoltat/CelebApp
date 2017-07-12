@@ -1,0 +1,19 @@
+{
+  "lastCommand": "2017-07-04T09:31:48.079Z",
+  "urls": {
+    "api": "https://api.ionic.io",
+    "dash": "https://apps.ionic.io"
+  },
+  "user": {},
+  "tokens": {
+    "appUser": {},
+    "telemetry": "8b7c081e-3c33-4e11-bf42-57e676281bf8"
+  },
+  "cliFlags": {
+    "confirm": false,
+    "interactive": true,
+    "telemetry": true,
+    "yarn": false,
+    "timeout": true
+  }
+}

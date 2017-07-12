@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Create Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding >
+    <ion-list>
+    <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input type = "text" [(ngModel)] = "profile.username" value =""></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label floating>First Name</ion-label>
+        <ion-input type = "text" [(ngModel)] = "profile.firstname" value = ""> </ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label floating>Last Name</ion-label>
+        <ion-input type = "text" [(ngModel)] = "profile.lastname" value = ""> </ion-input>
+    </ion-item>
+    </ion-list>
+
+    <button ion-button clear block (click) = "createProfile()">Create Profile</button>
+                
+ 
+</ion-content>
