@@ -23,19 +23,19 @@ export class HomePage {
 ionViewWillLoad(){
   this.afAuth.authState.subscribe(data => {
   if(data && data.email && data.uid){
-  this.toastCtrl.create({
-    message: 'Welcome to myApp, '+ String(data.email),
-    duration: 3000
-  }).present();
+  // this.toastCtrl.create({
+  //   message: 'Welcome to myApp, '+ String(data.email),
+  //   duration: 3000
+  // }).present();
   this.profileData = this.afDatabase.object("profile/"+data.uid)
 }
 
-  else{
-    this.toastCtrl.create({
-    message: 'Could not find authentication detail',
-    duration: 3000
-  }).present();
-  }
+  // else{
+  //   this.toastCtrl.create({
+  //   message: 'Could not find authentication detail',
+  //   duration: 3000
+  // }).present();
+  // }
   })
 
 }
