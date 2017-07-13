@@ -1,15 +1,16 @@
 <ion-header>
   <ion-navbar>
     
-    <ion-title text-center>{{(profileData | async)?.username}}</ion-title>
-      <ion-buttons start (click) = "logUserOut()">
-        <button>
+    <ion-title  text-center>{{(profileData | async)?.username}}</ion-title>
+      <ion-buttons>
+        <button (click) = "logUserOut()" style="float: right; text-align: right">
         <ion-icon name="log-out"></ion-icon> Logout
         </button>
-      </ion-buttons>
-      <button start (click) = "goToCreateProfile()">
+      <button style="float: left; text-align: left" (click) = "goToCreateProfile()"> 
       <ion-icon name= "hammer"></ion-icon> Edit
       </button>
+      </ion-buttons>
+      
       
       
   </ion-navbar>

@@ -21,6 +21,7 @@ import {FIREBASE_CONFIG} from "./app.firebase.config";
 import {CreateProfilePage} from "../pages/create-profile/create-profile";
 
 
+
 @NgModule({
   declarations: [
     MyApp,

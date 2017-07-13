@@ -1,12 +1,14 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Homepage</ion-title>
+    <ion-title text-center>Homepage</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding >
-  <p>Username: {{(profileData | async)?.username}}</p>
-  <p>First Name: {{(profileData | async)?.firstname}}</p>
-  <p>Last Name: {{(profileData | async)?.lastname}}</p>
+  <div>
+    <input  type="file" (change) ="selectfile($event)">
+    <img [src]="image" *ngIf = "image" style = "margin: 10px">
+    <button color="primary" ion-button (click) = "startUpload()">Upload Photo </button>
+  </div>
 </ion-content>
 
 
