@@ -4,7 +4,7 @@ export const FIREBASE_CONFIG = config = {
     authDomain: "myapp-6212a.firebaseapp.com",
     databaseURL: "https://myapp-6212a.firebaseio.com",
     projectId: "myapp-6212a",
-    storageBucket: "",
+    storageBucket: "gs://myapp-6212a.appspot.com/",
     messagingSenderId: "111702413635"
   };
  
