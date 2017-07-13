@@ -25,6 +25,7 @@ export class MyApp {
     messagingSenderId: "111702413635"
   };
   firebase.initializeApp(config);
+  
   //check logged in status
     firebase.auth().onAuthStateChanged((user) => {
       if(user){

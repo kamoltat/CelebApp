@@ -15,7 +15,7 @@ import {TabsPage} from '../tabs/tabs';
   providers: [AngularFireAuth]
 })
 export class CreateProfilePage {
-    profile = {} as ProfilePage;
+  profile = {} as ProfilePage;
   constructor(public navCtrl: NavController, 
   public userProvider: UserServiceProvider, 
   public afAuth: AngularFireAuth, 
