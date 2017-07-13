@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     
-    <ion-title>Profile</ion-title>
+    <ion-title text-center>{{(profileData | async)?.username}}</ion-title>
       <ion-buttons start (click) = "logUserOut()">
         <button>
         <ion-icon name="log-out"></ion-icon> Logout
@@ -26,26 +26,4 @@
     </p>  
   </ion-card-content>
 </ion-card>
-
-<ion-card>
-  <ion-card-header>
-    My Details
-    <ion-list>
-      <button ion-item>
-        <ion-icon name="list"></ion-icon>19 years old
-      </button>
-    </ion-list>
-    <ion-list>
-      <button ion-item>
-       <ion-icon name="logo-buffer"></ion-icon> 6 feet 0 inches
-      </button> 
-    </ion-list>
-    <ion-list>
-      <button ion-item>
-        <ion-icon name="globe"></ion-icon>Thailand
-      </button>
-    </ion-list>
-  </ion-card-header>
-</ion-card>
-<button ion-button>Follow</button>
 </ion-content>

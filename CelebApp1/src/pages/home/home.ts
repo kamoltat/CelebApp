@@ -28,9 +28,8 @@ ionViewWillLoad(){
   //   duration: 3000
   // }).present();
   this.profileData = this.afDatabase.object("profile/"+data.uid)
+  
 }
-
-
   // else{
   //   this.toastCtrl.create({
   //   message: 'Could not find authentication detail',
@@ -38,7 +37,5 @@ ionViewWillLoad(){
   // }).present();
   // }
   })
-
 }
-
 }
