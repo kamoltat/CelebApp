@@ -12,11 +12,11 @@ import { FirebaseListObservable } from 'angularfire2/database';
 export class SearchPage {
   searchQuery: string = '';
   items: string[];
-  shoppingItems: FirebaseListObservable<any[]>
+  idolItems: FirebaseListObservable<any[]>
   newItem ='';
 
   constructor(public navCtrl: NavController, public firebaseProvider: FirebaseProvider) {
-    this.shoppingItems = this.firebaseProvider.getShoppingItems();
+    this.idolItems = this.firebaseProvider.getIdols();
     this.initializeItems();
   }
 
