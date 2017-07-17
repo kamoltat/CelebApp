@@ -30,7 +30,7 @@ export class LoginPage {
   public modalCtrl: ModalController, public usersService: UserServiceProvider,
   public loadingCtrl:LoadingController, public AlertCtrl:AlertController,
   public toastCtrl: ToastController) {
-    this.emailField = "juniorcaesar7@gmail.com";
+  this.emailField = "juniorcaesar7@gmail.com";
   }
 
   
