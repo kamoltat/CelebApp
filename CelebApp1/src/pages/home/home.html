@@ -1,14 +1,12 @@
 <ion-header>
   <ion-navbar>
     <ion-title text-center>Homepage</ion-title>
-  </ion-navbar>
+    <button *ngIf = "celeb1" (click) = "goToPost()" style="float: right; text-align: right" >
+    <ion-icon name="add-circle"></ion-icon> Post
+    </button>
+  </ion-navbar> 
 </ion-header>
 <ion-content padding >
-  <div>
-    <input  type="file" (change) ="selectfile($event)">
-    <img [src]="image" *ngIf = "image" style = "margin: 10px">
-    <button color="primary" ion-button (click) = "startUpload()">Upload Photo </button>
-  </div>
 </ion-content>
 
 

@@ -5,79 +5,65 @@ import firebase from 'firebase';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase, FirebaseObjectObservable,FirebaseListObservable} from 'angularfire2/database';
 import {CreateProfilePage} from '../create-profile/create-profile';
+import {PostPage} from "../post/post";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [AngularFireAuth]
+  providers: [UserServiceProvider]
 })
 
 
 export class HomePage {
   profileData : FirebaseObjectObservable<CreateProfilePage>
-  storageRef = firebase.storage().ref();
+  database:any
+  celeb1 :any
   
-
-
-  image: any;
-  file: any;
-
+  
+  
   constructor(public navCtrl: NavController, 
   public userProvider: UserServiceProvider, 
   // public af: AngularFire,
   public afAuth: AngularFireAuth, private toastCtrl: ToastController, 
   private afDatabase: AngularFireDatabase, public zone: NgZone) {
-    this.storageRef.child("image/default_profile_pic.jpg").getDownloadURL().then((url) => 
-  {
-    this.zone.run(()=>{
-      // this.image = url;
-    })
-  });
+  
+}
+
+
+status = this.getCelebStatus();
+
+
+
   
 
-}
-
-selectfile(e){
-   this.file = e.target.files[0]
-   this.readPhoto(this.file);
-}
-startUpload(){
-  this.storageRef.child("image/"+this.file.name).put(this.file).
-  then((snapshot) =>{
-    alert("upload " + this.file.name+" success!");
-  });
-}
-readPhoto(file){
-  let reader = new FileReader();
-  reader.onload = (e) =>{
-    this.zone.run(() => {
-    let path:any = e.target;
-    this.image = path.result;
-    });
-    
+getCelebStatus(){
+  var user = firebase.auth().currentUser;
+  if(user){
+  return firebase.database().ref('profile/' + user.uid + '/is_celeb').once('value').then(function(snapshot) {
+  var celeb = snapshot.val(); 
+  console.log(user.email)
+  console.log(celeb)
+  console.log("user signed in")
+  })
   }
-  reader.readAsDataURL(file);
+  else {
+  console.log("No user signed in")
+}
 }
 
-PostPhoto(){
-  this.storageRef.child("image/"+this.file.name).getDownloadURL().then((url) => {
-  this.zone.run(() => {
-  this.image = url;
-  })
-  })
 
-}
+
 
 ionViewWillLoad(){
   this.afAuth.authState.subscribe(data => {
   if(data && data.email && data.uid){
-  // this.toastCtrl.create({
-  //   message: 'Welcome to myApp, '+ String(data.email),
-  //   duration: 3000
-  // }).present();
-  this.profileData = this.afDatabase.object("profile/"+data.uid)
-  
-}
+    
+    
+  }
+
+
+
+
   // else{
   //   this.toastCtrl.create({
   //   message: 'Could not find authentication detail',
@@ -86,6 +72,12 @@ ionViewWillLoad(){
   // }
   })
 }
+
+
+goToPost(){
+  this.navCtrl.push(PostPage);
+}
+
 
 
 }
