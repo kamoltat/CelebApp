@@ -1,7 +1,9 @@
-import {FirebaseProvider} from '../../providers/firebase';
-import { Component } from '@angular/core';
+import { FirebaseProvider } from '../../providers/firebase';
+import { Component, NgZone } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'page-about',
@@ -14,16 +16,26 @@ export class SearchPage {
   items: string[];
   idolItems: FirebaseListObservable<any[]>
   newItem ='';
+  storageRef = firebase.storage().ref();
+  image: any;
 
-  constructor(public navCtrl: NavController, public firebaseProvider: FirebaseProvider) {
+  constructor(public navCtrl: NavController, public firebaseProvider: FirebaseProvider,
+     public af: AngularFireModule, public zone:NgZone) {
     this.idolItems = this.firebaseProvider.getIdols();
     this.initializeItems();
+    this.getImage();
+  }
+
+  getImage(){
+    this.storageRef.child("displayPic/yasuo.png").getDownloadURL().then((url)=>{this.image = url;
+    });
   }
 
   initializeItems() {
     this.items = [
-      'Amsterdam',
-      'Bogota',
+      'Yasuo',
+      'Xayah',
+      'Rakan'
       
     ];
   }

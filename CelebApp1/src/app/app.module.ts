@@ -7,20 +7,20 @@ import { SearchPage } from '../pages/search/search';
 import { ProfilePage } from '../pages/profile/profile';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
-import {LoginPage} from '../pages/login/login';
-import {ResetPasswordPage} from '../pages/reset-password/reset-password';
+import { LoginPage } from '../pages/login/login';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {RegisterPage} from '../pages/register/register';
+import { RegisterPage } from '../pages/register/register';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { HttpModule } from '@angular/http';
-import {AngularFireModule} from 'angularfire2';
-import {AngularFireAuthModule} from 'angularfire2/auth';
-import {AngularFireDatabaseModule} from 'angularfire2/database';
-import {FIREBASE_CONFIG} from "./app.firebase.config";
-import {PostPage} from "../pages/post/post";
-import {CreateProfilePage} from "../pages/create-profile/create-profile";
-
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { FIREBASE_CONFIG } from "./app.firebase.config";
+import { PostPage } from "../pages/post/post";
+import { CreateProfilePage } from "../pages/create-profile/create-profile";
+import * as firebase from 'firebase';
 
 
 @NgModule({
