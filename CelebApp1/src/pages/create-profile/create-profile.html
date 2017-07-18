@@ -1,14 +1,16 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Edit Profile</ion-title>
+    <ion-title text center stack>Edit Profile</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding >
     <ion-list>
-    <ion-item>
-        
-       <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
+    <ion-item text-center>
+     <img *ngIf = "!image" (click) = "editPhoto()"  [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
   : 200px; width: 200px; "/>
+  <img [src]="image" *ngIf = "image" style="margin:auto; margin-top: 20px; border-radius:500px; height
+  : 200px; width: 200px; ">
+    <input *ngIf = "browse"  type="file" (change) ="selectfile($event)" >
     </ion-item>
     <ion-item>
         <ion-label floating>Username</ion-label>

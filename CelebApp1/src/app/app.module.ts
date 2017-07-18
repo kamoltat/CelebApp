@@ -18,7 +18,7 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CONFIG} from "./app.firebase.config";
-import {PostPage} from "../pages/post/post";
+import {EditUserPicPage} from "../pages/edit-user-pic/edit-user-pic";
 import {CreateProfilePage} from "../pages/create-profile/create-profile";
 
 
@@ -34,7 +34,7 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
     RegisterPage,
     LoginPage,
     CreateProfilePage,
-    PostPage
+    EditUserPicPage
 
    
     
@@ -42,7 +42,7 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{tabsHideOnSubPages: true}),
     HttpModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
@@ -62,7 +62,7 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
     TabsPage,
     RegisterPage,
     CreateProfilePage,
-    PostPage
+    EditUserPicPage
     
    
   ],

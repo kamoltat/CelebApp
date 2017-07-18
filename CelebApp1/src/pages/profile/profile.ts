@@ -44,7 +44,7 @@ firebase.database().ref('users/' + user.uid).on('value', snapshot => {
 this.username = snapshot.val().username;
 this.firstname = snapshot.val().firstname;
 this.lastname = snapshot.val().lastname;
-this.profile_pic_url = snapshot.val().profile_pic_url
+this.profile_pic_url = snapshot.val().profile_pic_url;  
 firebase.storage().ref().child(this.profile_pic_url).getDownloadURL().then((url) => 
   {
     this.zone.run(()=>{
