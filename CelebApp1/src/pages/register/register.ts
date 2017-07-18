@@ -20,7 +20,10 @@ import {CreateProfilePage} from '../create-profile/create-profile'
 export class RegisterPage {
   public emailField: any;
   public passwordField: any;
-  public picture: any;
+  public usernameField: any;
+  public firstnameField: any;
+  public lastnameField: any;
+  
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public ViewCtrl: ViewController,public usersService: UserServiceProvider
@@ -32,11 +35,11 @@ export class RegisterPage {
 
   signUserUp(){
     
-    this.usersService.signUpUser(this.emailField, this.passwordField).then(authData => {
+    this.usersService.signUpUser(this.emailField, this.passwordField,this.usernameField,this.firstnameField,this.lastnameField).then(authData => {
       //successful
-    this.navCtrl.push(CreateProfilePage);
+    this.navCtrl.setRoot(HomePage);
     }, error =>{
-      //alert("error logging in: " +error.message);
+     //alert("error logging in: " +error.message);
   
     });
     let loader = this.loadingCtrl.create({

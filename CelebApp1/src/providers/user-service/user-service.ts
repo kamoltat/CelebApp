@@ -19,14 +19,16 @@ public data: any;
 public fireAuth:any;
 public userProfile: any;
 
-
   constructor(public http: Http) {
     this.fireAuth = firebase.auth();
     this.userProfile = firebase.database().ref('users');
+    
     console.log('Hello UserServiceProvider Provider');
   }
-  
-signUpUser(email: string,password: string){
+
+
+
+signUpUser(email: string,password: string,username: string,firstname:string,lastname:string){
   return this.fireAuth.createUserWithEmailAndPassword(email, password).
   then((newUser) => {
     //sign in the user
@@ -34,7 +36,12 @@ signUpUser(email: string,password: string){
       authenticatedUser) => {
         //sucessfully login, create user profile
         this.userProfile.child(authenticatedUser.uid).set({
-          email:email
+          email:email,
+          password: password,
+          username: username,
+          firstname: firstname,
+          lastname: lastname
+
         });
       });
   });
@@ -42,7 +49,8 @@ signUpUser(email: string,password: string){
 loginUser(email: string, password: string): any{
   return this.fireAuth.signInWithEmailAndPassword(email, password);
 }
-logoutUser(){
+logoutUser(): firebase.Promise<void>{
+  firebase.database().ref('/profile').child(firebase.auth().currentUser.uid).off();
   return this.fireAuth.signOut();
   //redirection
 }
