@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     
-    <ion-title  text-center>{{(profileData | async)?.username}}</ion-title>
+    <ion-title  text-center>{{username}}</ion-title>
       <ion-buttons>
         <button (click) = "logUserOut()" style="float: right; text-align: right">
         <ion-icon name="log-out"></ion-icon> Logout
@@ -18,9 +18,9 @@
 
 <ion-content>
 <ion-card text-center>
-  <img src = "assets/picture/default_profile_pic.jpg"style="margin:auto; margin-top: 20px; border-radius:500px; height
+  <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
   : 200px; width: 200px; "/>
-  <ion-card-title>{{(profileData | async)?.firstname}} {{(profileData | async)?.lastname}}
+  <ion-card-title>{{firstname}} {{lastname}}
   </ion-card-title>
   <ion-card-content>
     <p>

@@ -1,32 +1,32 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Create Profile</ion-title>
+    <ion-title>Edit Profile</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding >
     <ion-list>
     <ion-item>
+        
+       <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
+  : 200px; width: 200px; "/>
+    </ion-item>
+    <ion-item>
         <ion-label floating>Username</ion-label>
-        <ion-input type = "text" [(ngModel)] = "profile.username" value = ""></ion-input>
+        <ion-input type = "text" [(ngModel)] = "username" value = ""></ion-input>
     </ion-item>
     <ion-item>
         <ion-label floating>First Name</ion-label>
-        <ion-input type = "text" [(ngModel)] = "profile.firstname" value = ""> </ion-input>
+        <ion-input type = "text" [(ngModel)] = "firstname" value = ""> </ion-input>
     </ion-item>
     <ion-item>
         <ion-label floating>Last Name</ion-label>
-        <ion-input type = "text" [(ngModel)] = "profile.lastname" value = ""> </ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label>Status</ion-label>
-        <ion-select [(ngModel)] = "profile.is_celeb">
-        <ion-option value = false> Follower </ion-option>
-        <ion-option value = true> Celebrity </ion-option>
-        </ion-select>
+        <ion-input type = "text" [(ngModel)] = "lastname" value = ""> </ion-input>
     </ion-item>
     </ion-list>
 
-    <button ion-button clear block (click) = "createProfile()">Create Profile</button>
+    <button ion-button clear block (click) = "updateProfile()">Save Profile</button>
+    
+    <button ion-button clear block (click) = "cancelEdit()">Cancel</button>
                 
  
 </ion-content>
