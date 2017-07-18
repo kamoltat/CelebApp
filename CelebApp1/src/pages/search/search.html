@@ -40,6 +40,9 @@
     <ion-item>
         <ion-item-sliding *ngFor="let item of idolItems | async">
             <ion-item>
+              <ion-thumbnail item-start>
+                  <img [src]= "image">
+              </ion-thumbnail>
               <h2>{{ item.$value }}</h2>
               <p>*Status from database here*</p>
               <button ion-button clear item-end>View</button>
