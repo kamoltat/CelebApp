@@ -6,6 +6,7 @@ import {ResetPasswordPage} from '../reset-password/reset-password';
 import {UserServiceProvider} from '../../providers/user-service/user-service';
 import {HomePage} from '../home/home';
 import {CreateProfilePage} from '../create-profile/create-profile';
+import { SignupIdolPage } from '../signup-idol/signup-idol';
 
 @IonicPage()
 @Component({
@@ -49,6 +50,11 @@ export class LoginPage {
     
   }
   
+  submitIdolRegister(){
+    let registerModal = this.modalCtrl.create(SignupIdolPage);
+    registerModal.present();
+  }
+
   submitRegister(){
     let registerModal = this.modalCtrl.create(RegisterPage);
     registerModal.present();

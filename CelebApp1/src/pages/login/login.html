@@ -24,8 +24,11 @@
       <ion-input type="password" [(ngModel)] = "passwordField" value=""></ion-input>
     </ion-item>
   </ion-list>
+
   <button ion-button (click) = "submitLogin()">Submit</button>
   <button ion-button (click) = "submitRegister()">Register</button>
+  <button ion-button (click) = "submitIdolRegister()">Register Idol</button>
+
   <ion-list>
     <button primary full (click) = "googleSignIn()"><ion-icon name = "logo-googleplus"></ion-icon>Sign in With Google</button>
     <button clear full (click) = "redirectToResetPage()">Forgot Password</button>

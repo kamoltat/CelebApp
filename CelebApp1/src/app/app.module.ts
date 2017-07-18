@@ -21,7 +21,8 @@ import { FIREBASE_CONFIG } from "./app.firebase.config";
 import { PostPage } from "../pages/post/post";
 import { CreateProfilePage } from "../pages/create-profile/create-profile";
 import * as firebase from 'firebase';
-
+import { SignupIdolPage } from '../pages/signup-idol/signup-idol';
+import { IdolServiceProvider } from '../providers/idol-service/idol-service';
 
 @NgModule({
   declarations: [
@@ -34,12 +35,11 @@ import * as firebase from 'firebase';
     RegisterPage,
     LoginPage,
     CreateProfilePage,
-    PostPage
+    PostPage,
+    SignupIdolPage
 
-   
-    
-    
   ],
+
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -62,7 +62,8 @@ import * as firebase from 'firebase';
     TabsPage,
     RegisterPage,
     CreateProfilePage,
-    PostPage
+    PostPage,
+    SignupIdolPage
     
    
   ],
@@ -70,7 +71,8 @@ import * as firebase from 'firebase';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserServiceProvider
+    UserServiceProvider,
+    IdolServiceProvider
   ]
 })
 export class AppModule {}
