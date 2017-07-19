@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title text-center>Homepage</ion-title>
-    <button *ngIf = "userProfile?.is_celeb == 'true'" (click) = "goToPost()" style="float: right; text-align: right" >
+    <button *ngIf = "is_celeb" (click) = "goToPost()" style="float: right; text-align: right" >
     <ion-icon name="add-circle"></ion-icon> Post
     </button>
   </ion-navbar> 

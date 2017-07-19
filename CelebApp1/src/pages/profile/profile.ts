@@ -17,6 +17,7 @@ export class ProfilePage {
  username:string;
  firstname:string;
  lastname:string;
+ about:string;
  profile_pic:any;  
  profile_pic_url:any;  
 
@@ -44,6 +45,7 @@ firebase.database().ref('users/' + user.uid).on('value', snapshot => {
 this.username = snapshot.val().username;
 this.firstname = snapshot.val().firstname;
 this.lastname = snapshot.val().lastname;
+this.about = snapshot.val().about;
 this.profile_pic_url = snapshot.val().profile_pic_url;  
 firebase.storage().ref().child(this.profile_pic_url).getDownloadURL().then((url) => 
   {
