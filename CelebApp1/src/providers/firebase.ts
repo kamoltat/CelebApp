@@ -17,4 +17,8 @@ export class FirebaseProvider {
   removeItem(id) {
     this.afd.list('/idols/').remove(id);
   }
+
+  followItem(id){
+    this.afd.list('/profile/')
+  }
 }
