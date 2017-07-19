@@ -14,13 +14,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { RegisterPage } from '../pages/register/register';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { HttpModule } from '@angular/http';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { FIREBASE_CONFIG } from "./app.firebase.config";
-import { PostPage } from "../pages/post/post";
-import { CreateProfilePage } from "../pages/create-profile/create-profile";
-import * as firebase from 'firebase';
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireAuthModule} from 'angularfire2/auth';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {FIREBASE_CONFIG} from "./app.firebase.config";
+import {EditUserPicPage} from "../pages/edit-user-pic/edit-user-pic";
+import {CreateProfilePage} from "../pages/create-profile/create-profile";
+
+
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import * as firebase from 'firebase';
     RegisterPage,
     LoginPage,
     CreateProfilePage,
-    PostPage
+    EditUserPicPage
 
    
     
@@ -42,7 +43,7 @@ import * as firebase from 'firebase';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{tabsHideOnSubPages: true}),
     HttpModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
@@ -62,7 +63,7 @@ import * as firebase from 'firebase';
     TabsPage,
     RegisterPage,
     CreateProfilePage,
-    PostPage
+    EditUserPicPage
     
    
   ],

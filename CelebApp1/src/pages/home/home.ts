@@ -4,7 +4,7 @@ import {UserServiceProvider} from '../../providers/user-service/user-service'
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase, FirebaseObjectObservable,FirebaseListObservable} from 'angularfire2/database';
 import {CreateProfilePage} from '../create-profile/create-profile';
-import {PostPage} from "../post/post";
+
 import {LoginPage} from "../login/login";
 import firebase from 'firebase';
 
@@ -52,7 +52,7 @@ console.log(this.userProfile);
 
 
 goToPost(){
-  this.navCtrl.push(PostPage);
+  // this.navCtrl.push(PostPage);
 }
 
 
