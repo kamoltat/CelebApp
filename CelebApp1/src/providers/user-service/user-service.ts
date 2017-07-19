@@ -40,8 +40,8 @@ signUpUser(email: string,password: string,username: string,firstname:string,last
           password: password,
           username: username,
           firstname: firstname,
-          lastname: lastname
-
+          lastname: lastname,
+          about: ""
         });
       });
   });
@@ -54,6 +54,21 @@ logoutUser(): firebase.Promise<void>{
   return this.fireAuth.signOut();
   //redirection
 }
+
+isCurrentUserCeleb():any{    //Check if current is idol or follower
+var user = firebase.auth().currentUser;
+firebase.database().ref().child("idols").once('value', function(snapshot){
+  if (snapshot.hasChild(user.uid)) {
+    console.log("you are logged in as idol");
+    return true;
+  }
+  else{
+    console.log("you are logged in as follower");
+    return false;
+  }
+})
+}
+
  forgotPasswordUser(email:any){
     return this.fireAuth.sendPasswordResetEmail(email);
   }

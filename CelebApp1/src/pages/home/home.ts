@@ -16,9 +16,8 @@ import firebase from 'firebase';
 
 
 export class HomePage {
-  profileData : FirebaseObjectObservable<CreateProfilePage>;
   database:any;
-  public userProfile:any;
+  public is_celeb = false;
   
   
   constructor(public navCtrl: NavController, 
@@ -34,24 +33,33 @@ export class HomePage {
 
 
 ionViewDidEnter(){
-
 var user = firebase.auth().currentUser;
-if(user && user.uid && user.email){
-
-firebase.database().ref('profile/' + user.uid).on('value', snapshot => {
-this.userProfile = snapshot.val();
-});
+if(user){
+this.is_celeb = this.userProvider.isCurrentUserCeleb();
 }
-
 else{
   this.navCtrl.setRoot(LoginPage);
 }
-console.log(this.userProfile);
-
 }
 
 
+// if(user && user.uid && user.email){
+
+// firebase.database().ref('profile/' + user.uid).on('value', snapshot => {
+// this.userProfile = snapshot.val();
+// });
+// }
+
+// else{
+//   this.navCtrl.setRoot(LoginPage);
+// }
+// console.log(this.userProfile);
+
+
+
+
 goToPost(){
+  null;
   // this.navCtrl.push(PostPage);
 }
 
