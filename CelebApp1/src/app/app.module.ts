@@ -37,10 +37,8 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     RegisterPage,
     LoginPage,
     CreateProfilePage,
-
-    SignupIdolPage
-
-    EditUserPicPage,
+    SignupIdolPage,
+    EditUserPicPage
 
 
 
@@ -72,11 +70,8 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     TabsPage,
     RegisterPage,
     CreateProfilePage,
-
     SignupIdolPage,
-   
-
-    EditUserPicPage,
+    EditUserPicPage
     
 
     
@@ -87,7 +82,6 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserServiceProvider,
-
     IdolServiceProvider
 
    
