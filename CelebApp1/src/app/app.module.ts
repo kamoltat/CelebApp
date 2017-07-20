@@ -14,6 +14,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { RegisterPage } from '../pages/register/register';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { HttpModule } from '@angular/http';
+<<<<<<< HEAD
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -23,6 +24,17 @@ import { CreateProfilePage } from "../pages/create-profile/create-profile";
 import * as firebase from 'firebase';
 import { SignupIdolPage } from '../pages/signup-idol/signup-idol';
 import { IdolServiceProvider } from '../providers/idol-service/idol-service';
+=======
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireAuthModule} from 'angularfire2/auth';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {FIREBASE_CONFIG} from "./app.firebase.config";
+import {EditUserPicPage} from "../pages/edit-user-pic/edit-user-pic";
+import {CreateProfilePage} from "../pages/create-profile/create-profile";
+
+
+
+>>>>>>> 2c6a9d3fc161538607b163f435a88050a05fc67c
 
 @NgModule({
   declarations: [
@@ -35,14 +47,18 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     RegisterPage,
     LoginPage,
     CreateProfilePage,
+<<<<<<< HEAD
     PostPage,
     SignupIdolPage
+=======
+    EditUserPicPage
+>>>>>>> 2c6a9d3fc161538607b163f435a88050a05fc67c
 
   ],
 
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{tabsHideOnSubPages: true}),
     HttpModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
@@ -62,8 +78,12 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     TabsPage,
     RegisterPage,
     CreateProfilePage,
+<<<<<<< HEAD
     PostPage,
     SignupIdolPage
+=======
+    EditUserPicPage
+>>>>>>> 2c6a9d3fc161538607b163f435a88050a05fc67c
     
    
   ],

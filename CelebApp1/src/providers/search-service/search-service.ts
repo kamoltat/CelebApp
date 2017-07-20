@@ -2,9 +2,14 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
  
 @Injectable()
-export class FirebaseProvider {
+export class SearchProvider {
+
+  idolItems2: any;
  
-  constructor(public afd: AngularFireDatabase) { }
+  constructor(public afd: AngularFireDatabase) {
+    this.idolItems2 = firebase.database().ref('idols');
+
+  }
  
   getIdols() {
     return this.afd.list('/idols/');
@@ -21,4 +26,15 @@ export class FirebaseProvider {
   followItem(id){
     this.afd.list('/profile/')
   }
+
+  getIdol(userId: any){
+
+    var idolRef = this.idolItems2.child('userId');
+    return idolRef.once('value');{
+
+      };
+  }
+    
 }
+
+

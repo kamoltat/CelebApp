@@ -17,14 +17,29 @@
 </ion-header>
 
 <ion-content>
-<ion-card text-center>
+<ion-card>
   <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
   : 200px; width: 200px; "/>
-  <ion-card-title>{{firstname}} {{lastname}}
+  <ion-card-title text-center>{{firstname}} {{lastname}}
   </ion-card-title>
   <ion-card-content>
-    <p>
-    </p>  
+  
   </ion-card-content>
+</ion-card>
+<ion-card>
+<ion-card-content>
+<p> <ion-icon name = "information-circle"></ion-icon> About</p>
+<h3>{{about}}</h3>
+</ion-card-content>
+</ion-card>
+<ion-card>
+<ion-card-content>
+<p> <ion-icon name ="checkmark"></ion-icon> Following</p>
+</ion-card-content>
+</ion-card>
+<ion-card>
+<ion-card-content>
+<p> <ion-icon name ="calendar"></ion-icon> Events</p>
+</ion-card-content>
 </ion-card>
 </ion-content>

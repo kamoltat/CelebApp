@@ -40,8 +40,34 @@
   </ion-list>
   <!--END OF DEMONSTRATION-->
 
+ <ion-list>
+    <ion-item>
+        <ion-item-sliding *ngFor="let item of idolItems2">
+            <ion-item>
+              <ion-thumbnail item-start>
+                  <img [src]= "image">
+              </ion-thumbnail>
+              <h2>{{ item.username }}</h2>
+              <p>{{ item.firstname + item.lastname }}</p>
+              <button ion-button clear item-end>View</button>
+            </ion-item>
+            <ion-item-options side="left">
+              <button ion-button color="danger">
+                <ion-icon name="ignore"></ion-icon>
+                Ignore
+              </button>
+            </ion-item-options>
+            <ion-item-options side="right">
+              <button ion-button color="default">
+                <ion-icon name="follow"></ion-icon>
+                Follow
+              </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-item>
+  </ion-list>
 
-  
+  <!--
   <ion-list>
     <ion-item>
         <ion-item-sliding *ngFor="let item of idolItems | async">
@@ -68,5 +94,6 @@
         </ion-item-sliding>
     </ion-item>
   </ion-list>
+-->
 
 </ion-content>

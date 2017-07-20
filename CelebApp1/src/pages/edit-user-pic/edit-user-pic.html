@@ -7,15 +7,21 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title text-center stack> Post </ion-title>
+    <ion-title text-center stack> New Profile Pic </ion-title>
+    <ion-buttons start (click) = "closeEditPicPage()">
+        <button><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
 <div>
-    <img [src]="image" *ngIf = "image" style = "margin: 10px">
+    <img [src]="image" *ngIf = "image" style="margin:auto; margin-top: 20px; border-radius:500px; height
+  : 200px; width: 200px; ">
     <input  type="file" (change) ="selectfile($event)">
     <button color="primary" ion-button (click) = "startUpload()">Upload Photo </button>
+    
   </div>
+
 </ion-content>
