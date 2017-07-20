@@ -21,9 +21,11 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CONFIG} from "./app.firebase.config";
 import {EditUserPicPage} from "../pages/edit-user-pic/edit-user-pic";
 import {CreateProfilePage} from "../pages/create-profile/create-profile";
+
 import * as firebase from 'firebase';
 import { SignupIdolPage } from '../pages/signup-idol/signup-idol';
 import { IdolServiceProvider } from '../providers/idol-service/idol-service';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -35,7 +37,13 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     RegisterPage,
     LoginPage,
     CreateProfilePage,
+
     SignupIdolPage
+
+    EditUserPicPage,
+
+
+
    
     
 
@@ -48,7 +56,7 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-  
+
     
     
 
@@ -64,8 +72,13 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     TabsPage,
     RegisterPage,
     CreateProfilePage,
+
     SignupIdolPage,
    
+
+    EditUserPicPage,
+    
+
     
    
   ],
@@ -74,7 +87,12 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserServiceProvider,
+
     IdolServiceProvider
+
+   
+    
+
   ]
 })
 export class AppModule {}

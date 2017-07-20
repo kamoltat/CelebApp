@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ModalController,LoadingController, AlertController, 
-ToastController, } from 'ionic-angular';
+ToastController, App } from 'ionic-angular';
 import {RegisterPage} from '../register/register';
 import {ResetPasswordPage} from '../reset-password/reset-password';
 import {UserServiceProvider} from '../../providers/user-service/user-service';
 import {HomePage} from '../home/home';
 import {CreateProfilePage} from '../create-profile/create-profile';
 import { SignupIdolPage } from '../signup-idol/signup-idol';
+import{TabsPage} from '../tabs/tabs';
+
 
 @IonicPage()
 @Component({
@@ -24,7 +26,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, 
   public modalCtrl: ModalController, public usersService: UserServiceProvider,
   public loadingCtrl:LoadingController, public AlertCtrl:AlertController,
-  public toastCtrl: ToastController) {
+  public toastCtrl: ToastController, public app:App) {
   this.emailField = "juniorsirivadhna@gmail.com";
   
   }
@@ -35,16 +37,17 @@ export class LoginPage {
   submitLogin(){
     this.usersService.loginUser(this.emailField, this.passwordField).then(authData => {
       //successful
-    this.navCtrl.setRoot(HomePage);
+     this.navCtrl.setRoot(TabsPage);
+     
     }, error =>{
-      //alert("error logging in: " +error.message);
+      
       let alert = this.AlertCtrl.create({
       title: 'Error Log in',
       subTitle: error.message,
       buttons: ['OK']
     });
     alert.present();
-    this.navCtrl.setRoot(LoginPage);
+     this.navCtrl.setRoot(LoginPage);
     });
     let loader = this.loadingCtrl.create({
       dismissOnPageChange:true,
@@ -125,16 +128,6 @@ export class LoginPage {
         })
     });
   }
-
-  
-
-   
-    
-
-  
-
- 
-  
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
