@@ -1,0 +1,40 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title><ion-icon name="people" ></ion-icon> Register</ion-title>
+    <ion-buttons start (click) = "closeRegisterPage()">
+        <button><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+<ion-list>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" [(ngModel)] = "emailField" value =""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)] = "passwordField" value=""></ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" [(ngModel)] = "usernameField" value=""></ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-label floating>Firstname</ion-label>
+      <ion-input type="text" [(ngModel)] = "firstnameField" value=""></ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-label floating>Lastname</ion-label>
+      <ion-input type="text" [(ngModel)] = "lastnameField" value=""></ion-input>
+      </ion-item>
+  </ion-list>
+<button ion-button (click) = "signIdolUp()">Submit</button>
+<button ion-button (click) = "closeRegisterPage()">Cancel</button>
+
+</ion-content>

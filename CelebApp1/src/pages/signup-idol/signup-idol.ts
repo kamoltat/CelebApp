@@ -1,42 +1,33 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController,LoadingController,AlertController} from 'ionic-angular';
-import {UserServiceProvider} from '../../providers/user-service/user-service';
-import {HomePage} from '../home/home';
-import {TabsPage} from '../tabs/tabs';
-import {CreateProfilePage} from '../create-profile/create-profile'
-/**
- * Generated class for the RegisterPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import { IdolServiceProvider } from '../../providers/idol-service/idol-service';
+import { HomePage } from '../home/home';
+
+
 @IonicPage()
 @Component({
-  selector: 'page-register',
-  templateUrl: 'register.html',
-  providers:[UserServiceProvider]
+  selector: 'page-signup-idol',
+  templateUrl: 'signup-idol.html',
 })
-
-export class RegisterPage {
+export class SignupIdolPage {
   public emailField: any;
   public passwordField: any;
   public usernameField: any;
   public firstnameField: any;
   public lastnameField: any;
-  
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-  public ViewCtrl: ViewController,public usersService: UserServiceProvider
+  public ViewCtrl: ViewController,public usersService: IdolServiceProvider
   ,public loadingCtrl:LoadingController,public AlertCtrl:AlertController) {
   }
-  
+
   closeRegisterPage(){
     this.ViewCtrl.dismiss();
   }
 
-  signUserUp(){
+  signIdolUp(){
     
-    this.usersService.signUpUser(this.emailField, this.passwordField,this.usernameField,this.firstnameField,this.lastnameField).then(authData => {
+    this.usersService.signUpIdol(this.emailField, this.passwordField,this.usernameField,this.firstnameField,this.lastnameField).then(authData => {
       //successful
     this.navCtrl.setRoot(HomePage);
     }, error =>{
@@ -48,9 +39,9 @@ export class RegisterPage {
     });
     loader.present();
   }
+  
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterPage');
+    console.log('ionViewDidLoad SignupIdolPage');
   }
-
 
 }
