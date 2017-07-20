@@ -24,6 +24,7 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
 
 
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -35,7 +36,8 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
     RegisterPage,
     LoginPage,
     CreateProfilePage,
-    EditUserPicPage
+    EditUserPicPage,
+
 
    
     
@@ -47,7 +49,8 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
     HttpModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    
     
     
 
@@ -63,7 +66,8 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
     TabsPage,
     RegisterPage,
     CreateProfilePage,
-    EditUserPicPage
+    EditUserPicPage,
+    
     
    
   ],
@@ -71,7 +75,9 @@ import {CreateProfilePage} from "../pages/create-profile/create-profile";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserServiceProvider
+    UserServiceProvider,
+   
+    
   ]
 })
 export class AppModule {}
