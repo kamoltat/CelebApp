@@ -29,7 +29,7 @@ export class SearchPage {
   firstname:string;
   lastname:string;
 
-  constructor(public navCtrl: NavController, public firebaseProvider: FirebaseProvider,
+  constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
      public af: AngularFireModule, public zone:NgZone) {
     this.idolItems = this.firebaseProvider.getIdols();
     this.initializeItems();
@@ -37,7 +37,7 @@ export class SearchPage {
     
   }
 
-  displayIdol(theIdolID)
+  displayIdol(theIdolID){}
 
   getImage(){
     this.storageRef.child("displayPic/yasuo.png").getDownloadURL().then((url)=>{this.image = url;
