@@ -3,8 +3,8 @@ import { Component, NgZone } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
-import * as firebase from 'firebase';
 
+import firebase from 'firebase';
 import { IdolServiceProvider } from '../../providers/idol-service/idol-service';
 import {LoginPage } from '../login/login';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database'
@@ -24,20 +24,39 @@ export class SearchPage {
   newItem ='';
   storageRef = firebase.storage().ref();
   image: any;
-
-  username:string;
-  firstname:string;
-  lastname:string;
+  items2:any[]= [];
 
   constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
-     public af: AngularFireModule, public zone:NgZone) {
+    public af: AngularFireModule, public zone:NgZone) {
     this.idolItems = this.firebaseProvider.getIdols();
     this.initializeItems();
     this.getImage();
+    this.displayIdol();    
     
+    console.log("I'm in search page")
+  
   }
 
-  displayIdol(theIdolID){}
+  displayIdol(){
+    var temp = [];
+    var childData = "";
+    console.log("I'm in display idol")
+    var query = firebase.database().ref("idols").orderByKey();
+    //var ref = firebase.database().ref("idol/").once('value', function(snapshot) {
+    
+    query.once("value")
+      .then(function(snapshot) {
+        snapshot.forEach(childSnapshot =>{
+          var key = childSnapshot.key;
+          // childData will be the actual contents of the child
+          childData = childSnapshot.val();
+          temp.push(childData);
+      });
+    });
+
+    this.items2 = temp;
+  }
+  
 
   getImage(){
     this.storageRef.child("displayPic/yasuo.png").getDownloadURL().then((url)=>{this.image = url;
