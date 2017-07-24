@@ -9,14 +9,6 @@
 <ion-content padding>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   
-  <!--ONLY FOR UPPER LIST -> DEMONSTRATE SEARCH BAR -->
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item>
-  </ion-list>
-  <!--END OF DEMONSTRATION-->
-
   <!--DEMONSTRATION ADD DIRECTLY (name only)TO DATABASE-->
   <ion-row>
     <ion-col col-9>
@@ -43,7 +35,7 @@
 
  <ion-list>
     <ion-item>
-        <ion-item-sliding *ngFor="let item of items2">
+        <ion-item-sliding *ngFor="let item of idolArray">
             <ion-item>
               <ion-thumbnail item-start>
                   <img [src]= "image">

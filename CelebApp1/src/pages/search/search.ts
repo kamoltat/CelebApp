@@ -1,6 +1,6 @@
 import { SearchProvider } from '../../providers/search-service/search-service';
 import { Component, NgZone } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
 
@@ -19,74 +19,62 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 export class SearchPage {
   searchQuery: string = '';
-  items: string[];
-  idolItems: FirebaseListObservable<any[]>
   newItem ='';
   storageRef = firebase.storage().ref();
   image: any;
-  items2:any[]= [];
+  public items = new Array();
+  public idolArray: any;
 
   constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
-    public af: AngularFireModule, public zone:NgZone) {
-    this.idolItems = this.firebaseProvider.getIdols();
-    this.initializeItems();
+    public af: AngularFireModule, public zone:NgZone, public navParams: NavParams) {
     this.getImage();
-    this.displayIdol();    
     
+
     console.log("I'm in search page")
   
   }
 
-  displayIdol(){
-    var temp = [];
-    var childData = "";
-    console.log("I'm in display idol")
+  getIdols(){    
     var query = firebase.database().ref("idols").orderByKey();
-    //var ref = firebase.database().ref("idol/").once('value', function(snapshot) {
-    
     query.once("value")
-      .then(function(snapshot) {
-        snapshot.forEach(childSnapshot =>{
-          var key = childSnapshot.key;
-          // childData will be the actual contents of the child
-          childData = childSnapshot.val();
-          temp.push(childData);
-      });
-    });
-
-    this.items2 = temp;
+    .then(snapshot => {
+    snapshot.forEach(childSnapshot => {
+      // key will be "ada" the first time and "alan" the second time
+      var key = childSnapshot.key;
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+          this.items.push(childData);
+      
+        });
+    }); 
   }
-  
 
   getImage(){
     this.storageRef.child("displayPic/yasuo.png").getDownloadURL().then((url)=>{this.image = url;
     });
   }
 
-  initializeItems() {
-    this.items = [
-      'Yasuo',
-      'Xayah',
-      'Rakan'
-      
-    ];
-  }
-
-
+  
   getItems(ev: any) {
-    // Reset items back to all of the items
-    this.initializeItems();
-
-    // set val to the value of the searchbar
-    let val = ev.target.value;
-
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.items = this.items.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
+      this.getIdolArray();
+      console.log('idolArray in getItems():',this.idolArray);
+      let val = ev.target.value;
+      // if the value is an empty string don't filter the items
+      if (val && val.trim() != '') {
+          this.idolArray = this.idolArray.filter((item, username) => {
+              console.log(item);    
+              return (item.username.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          })
+      }
+    
   }
+
+
+ getIdolArray(){
+   this.idolArray = this.items;
+   console.log('idolArray:',this.idolArray);
+ } 
+
  
   addItem() {
     this.firebaseProvider.addItem(this.newItem);
@@ -96,6 +84,12 @@ export class SearchPage {
     this.firebaseProvider.removeItem(id);
   }
 
+
+  ionViewWillLoad(){
+    this.getIdols();
+    this.getIdolArray();
   }
+
+}
 
 
