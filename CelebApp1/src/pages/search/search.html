@@ -44,14 +44,8 @@
               <p>{{ item.firstname }} {{ item.lastname }}</p>
               <button ion-button clear item-end>View</button>
             </ion-item>
-            <ion-item-options side="left">
-              <button ion-button color="danger">
-                <ion-icon name="ignore"></ion-icon>
-                Ignore
-              </button>
-            </ion-item-options>
             <ion-item-options side="right">
-              <button ion-button color="default">
+              <button ion-button (click)="followButtonFunc(item.idolKey, item)" color="default">
                 <ion-icon name="follow"></ion-icon>
                 Follow
               </button>

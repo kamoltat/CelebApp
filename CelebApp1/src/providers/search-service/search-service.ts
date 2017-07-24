@@ -17,7 +17,7 @@ export class SearchProvider {
   }
  
   addItem(name) {
-    this.afd.list('/idols/').push(name);
+    this.afd.list('/following/').push(name);
   }
  
   removeItem(id) {
