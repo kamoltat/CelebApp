@@ -1,5 +1,5 @@
 import { SearchProvider } from '../../providers/search-service/search-service';
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
@@ -17,7 +17,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
   providers:[SearchProvider]
 })
 
-export class SearchPage {
+export class SearchPage implements OnInit {
   searchQuery: string = '';
   newItem ='';
   storageRef = firebase.storage().ref();
@@ -28,12 +28,20 @@ export class SearchPage {
 
   constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
     public af: AngularFireModule, public zone:NgZone, public navParams: NavParams) {
-    this.getImage();
     
 
     console.log("I'm in search page")
   
   }
+
+  getImage(childData){
+    this.storageRef.child(childData['profile_pic_url']).getDownloadURL().then((url)=>{
+      this.zone.run(() =>{ this.image = url;
+    });
+    });
+    return this.image;
+  }
+
 
   //Getting idols from firebase
   getIdols(){
@@ -46,22 +54,27 @@ export class SearchPage {
       // childData will be the actual contents of the child
       var childData = childSnapshot.val();
       temp.idolKey = key;
-
+      this.storageRef.child(childData['profile_pic_url']).getDownloadURL().then((url)=>{
+      this.zone.run(() =>{ childData['profile_pic_url'] = url;
+    }).catch(e=>{
+          console.log(e);
+        });
+    }).catch(e=>{
+          console.log(e);
+        });
       //merge two objects together (this is to add idol Key into the object of the idol itself.)
       var finalData = Object.assign(childData,temp);
       console.log('final Data:', finalData);
-
       //pushing merged data to items
       this.items.push(finalData);
+        }).catch(e=>{
+          console.log(e);
         });
-    }); 
+    }).catch(e=>{
+          console.log(e);
+        }); 
   }
 
-  //needs fixing
-  getImage(){
-    this.storageRef.child("displayPic/yasuo.png").getDownloadURL().then((url)=>{this.image = url;
-    });
-  }
 
   //Initiate Idol Array so that it doesnt get pushed multiple times
   getIdolArray(){
@@ -85,16 +98,21 @@ export class SearchPage {
 
 
   //Initiate at Start of page
-  ionViewWillLoad(){
+
+  ngOnInit(){
     this.getIdols();
     this.getIdolArray();
+  }
+
+  ionViewWillLoad(){
+    
   }
 
 
   //Adding function to follow button
   followButtonFunc(idolKey:any,data:any){
     var user = firebase.auth().currentUser;
-    firebase.database().ref("following").child(user.uid).child(idolKey).set(data);
+    firebase.database().ref("following/").child(user.uid).child(idolKey).set("");
   }
 
   //Search Function
@@ -111,6 +129,10 @@ export class SearchPage {
     }
   
   }
+
+  // navToUserProf(){
+  //    this.navCtrl.push(tempProfilePage);
+  // }
 }
 
 
