@@ -1,12 +1,55 @@
 <ion-header>
   <ion-navbar>
     <ion-title text-center>Homepage</ion-title>
-    <button *ngIf = "is_celeb" (click) = "goToPost()" style="float: right; text-align: right" >
-    <ion-icon name="add-circle"></ion-icon> Post
-    </button>
   </ion-navbar> 
 </ion-header>
 <ion-content padding >
+  <ion-fab bottom right>
+    <button ion-fab *ngIf = "is_celeb" (click) = "goToPost()">
+    <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-list *ngIf ="list_posts">
+  <ion-item *ngFor = "let post of list_posts">
+  <ion-card>
+
+  <ion-item>
+    <ion-avatar item-start>
+      <img [src] ="post.authorPicUrl">
+    </ion-avatar>
+    <h2>{{post.author}}</h2>
+    <p>(location)</p> 
+  </ion-item>
+
+  <img *ngIf = "post.post_pic_url" [src]= "post.post_pic_url">
+
+  <ion-card-content>
+    <p>{{post.body}}</p>
+  </ion-card-content>
+
+  <ion-row>
+    <ion-col>
+      <button ion-button icon-left clear small>
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>{{post.likeCount}} Likes</div>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button icon-left clear small>
+        <ion-icon name="text"></ion-icon>
+        <div>4 Comments</div>
+      </button>
+    </ion-col>
+    <ion-col center text-center>
+      <ion-note>
+        {{post.timeStamp}} ago
+      </ion-note>
+    </ion-col>
+  </ion-row>
+
+</ion-card>
+  </ion-item>
+  </ion-list>
 </ion-content>
 
 

@@ -13,23 +13,30 @@ import {CreateProfilePage} from '../create-profile/create-profile';
  */
 @IonicPage()
 @Component({
-  selector: 'page-edit-user-pic',
-  templateUrl: 'edit-user-pic.html',
+  selector: 'page-post',
+  templateUrl: 'post.html',
 })
 
-export class EditUserPicPage {
+export class  PostPage {
   storageRef = firebase.storage().ref();
   image: any;
   file: any;
-
+  text: string;
+  public postkey:any;
+  public username:any; 
+  public timeStamp: any;
+  public authorPicUrl:any;
 
   constructor(public navCtrl: NavController, 
   public userProvider: UserServiceProvider, 
   public afAuth: AngularFireAuth, private toastCtrl: ToastController, 
   private afDatabase: AngularFireDatabase, public zone: NgZone, public ViewCtrl: ViewController) {
-  
+  var user = firebase.auth().currentUser;
+  this.timeStamp = Date.now();
+
+  this.postkey = firebase.database().ref('post/'+user.uid).push().key;
 }
-  closeEditPicPage(){
+  closePostPage(){
     this.ViewCtrl.dismiss();
   }
 
@@ -43,12 +50,13 @@ export class EditUserPicPage {
 }
 
 startUpload(){
-  this.storageRef.child("image/user_profile/"+this.file.name).put(this.file).
+  var user = firebase.auth().currentUser
+  this.storageRef.child('image/posts/'+user.uid+'/'+this.postkey+'/post_pic').put(this.file).
   then((snapshot) =>{
     alert("upload " + this.file.name+" success!");
     var user = firebase.auth().currentUser;
-  firebase.database().ref('users/' + user.uid +'/profile_pic_url').set("image/user_profile/"+this.file.name);
-  
+    firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/post_pic_url').set('image/posts/'+user.uid+'/'+this.postkey+'/post_pic');
+    
   });
 }
 readPhoto(file){
@@ -63,14 +71,32 @@ readPhoto(file){
   reader.readAsDataURL(file);
 }
 
-PostPhoto(){
-  this.storageRef.child("image/user_profile/"+this.file.name).getDownloadURL().then((url) => {
-  this.zone.run(() => {
-  this.image = url;
-  })
-  })
+post(){
+  var user = firebase.auth().currentUser;
+  var postData = {
+    author: this.username,
+    authorPicUrl: this.authorPicUrl,
+    body: this.text,
+    likeCount: 0,
+    post_pic_url: "",
+    timeStamp: this.timeStamp,
+
+    
+  };
+  firebase.database().ref('posts/' + user.uid+'/'+this.postkey).set(postData);
+  if(this.image != null){
+    this.startUpload();
+  }
 
 }
+ionViewWillLoad(){
+var user = firebase.auth().currentUser;
+if(user&&user.email&&user.uid){
+firebase.database().ref('idols/' + user.uid).on('value', snapshot => {
+this.username = snapshot.val().username;
+this.authorPicUrl = snapshot.val().profile_pic_url;
+    });}
+  }
 
 }
 

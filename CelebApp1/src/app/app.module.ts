@@ -19,7 +19,7 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CONFIG} from "./app.firebase.config";
-import {EditUserPicPage} from "../pages/edit-user-pic/edit-user-pic";
+import {PostPage} from "../pages/post/post";
 import {CreateProfilePage} from "../pages/create-profile/create-profile";
 
 import * as firebase from 'firebase';
@@ -38,11 +38,8 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     LoginPage,
     CreateProfilePage,
     SignupIdolPage,
-    EditUserPicPage
-
-
-
-   
+    PostPage
+ 
     
 
   ],
@@ -71,7 +68,7 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     RegisterPage,
     CreateProfilePage,
     SignupIdolPage,
-    EditUserPicPage
+    PostPage
     
 
     

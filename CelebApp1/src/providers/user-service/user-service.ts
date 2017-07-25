@@ -18,6 +18,7 @@ export class UserServiceProvider {
 public data: any;
 public fireAuth:any;
 public userProfile: any;
+public is_celeb: boolean;
 
   constructor(public http: Http) {
     this.fireAuth = firebase.auth();
@@ -41,7 +42,8 @@ signUpUser(email: string,password: string,username: string,firstname:string,last
           username: username,
           firstname: firstname,
           lastname: lastname,
-          about: ""
+          about: "",
+          profile_pic_url: "image/default_profile/default_profile_pic.jpg"
         });
       });
   });
@@ -50,24 +52,12 @@ loginUser(email: string, password: string): any{
   return this.fireAuth.signInWithEmailAndPassword(email, password);
 }
 logoutUser(): firebase.Promise<void>{
-  firebase.database().ref('/profile').child(firebase.auth().currentUser.uid).off();
+  firebase.database().ref('/users').child(firebase.auth().currentUser.uid).off();
   return this.fireAuth.signOut();
   //redirection
 }
 
-isCurrentUserCeleb():any{    //Check if current is idol or follower
-var user = firebase.auth().currentUser;
-firebase.database().ref().child("idols").once('value', function(snapshot){
-  if (snapshot.hasChild(user.uid)) {
-    console.log("you are logged in as idol");
-    return true;
-  }
-  else{
-    console.log("you are logged in as follower");
-    return false;
-  }
-})
-}
+
 
  forgotPasswordUser(email:any){
     return this.fireAuth.sendPasswordResetEmail(email);
