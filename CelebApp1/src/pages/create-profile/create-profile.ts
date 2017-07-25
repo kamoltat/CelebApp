@@ -85,16 +85,38 @@ selectfile(e){
   toast.present();
 }
 
+updatePosts(){
+  console.log("updating posts")
+  var user = firebase.auth().currentUser;
+  firebase.database().ref("posts/"+user.uid).on('value', snapshot => {
+  snapshot.forEach(childSnapshot => {
+  var childKey = childSnapshot.key;
+  firebase.database().ref("posts/"+user.uid+'/'+childKey+ '/author').set(this.username);
+  console.log("update author post to:",this.username);
+  return false;
+  });
+  });
+
+}
+
 startUpload(){
   var user = firebase.auth().currentUser;
   console.log(this.file);
   if(this.file != null){
   this.storageRef.child("image/"+this.imageRoot+user.uid+'/'+"profile_pic").put(this.file).
-  then((snapshot) =>{
-    this.presentToast();
+  then((snapshot) =>{  
+  this.presentToast();
   firebase.database().ref(this.root + user.uid +'/profile_pic_url').set("image/"+this.imageRoot+user.uid+'/'+"profile_pic").
   then(this.appCtrl.getRootNav().setRoot(TabsPage));
   });
+  firebase.database().ref("posts/"+user.uid).on('value', snapshot => {
+  snapshot.forEach(childSnapshot => {
+  var childKey = childSnapshot.key;
+  firebase.database().ref("posts/" + user.uid +'/'+childKey +'/authorPicUrl').set("image/"+this.imageRoot+user.uid+'/'+"profile_pic");
+  console.log("update authorPicUrl post");
+  return false;
+  });
+  })
   }
 else{
   this.appCtrl.getRootNav().setRoot(TabsPage)
@@ -182,6 +204,7 @@ editPhoto(){
     actionSheet.present();
   }
 
+
 updateProfile(){
   var user = firebase.auth().currentUser;
   firebase.database().ref(this.root + user.uid +'/username').set(this.username);
@@ -192,7 +215,8 @@ updateProfile(){
   console.log("update lastname");
   firebase.database().ref(this.root + user.uid +'/about').set(this.about);
   console.log("update about");
-  this.startUpload()
+  this.updatePosts();
+  this.startUpload();
   console.log("startupload()");
 }
 
