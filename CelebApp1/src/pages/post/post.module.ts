@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { EditUserPicPage } from './edit-user-pic';
+import {PostPage} from '../post/post';
 
 @NgModule({
   declarations: [
-    EditUserPicPage,
+    PostPage,
   ],
   imports: [
-    IonicPageModule.forChild(EditUserPicPage),
+    IonicPageModule.forChild(PostPage),
   ],
   exports: [
-    EditUserPicPage
+    PostPage
   ]
 })
 export class EditUserPicPageModule {}

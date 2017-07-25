@@ -1,4 +1,4 @@
-import { Component,NgZone } from '@angular/core';
+import { Component,NgZone,OnInit } from '@angular/core';
 import {App, NavController, ToastController } from 'ionic-angular';
 import {UserServiceProvider} from '../../providers/user-service/user-service';
 import{LoginPage} from '../login/login';
@@ -12,7 +12,7 @@ import firebase from 'firebase';
   providers:[UserServiceProvider]
 })
 
-export class ProfilePage {
+export class ProfilePage implements OnInit {
   
  username:string;
  firstname:string;
@@ -20,6 +20,7 @@ export class ProfilePage {
  about:string;
  profile_pic:any;  
  profile_pic_url:any;  
+ is_celeb:any;
 
 
  constructor(public navCtrl: NavController, public userService:UserServiceProvider,public zone:NgZone,
@@ -37,11 +38,33 @@ export class ProfilePage {
     //when click on edit button, this trigers
     this.navCtrl.push(CreateProfilePage);
   }
-  ionViewWillLoad(){
-//load user's data
+
+  setIsCeleb(e){
+  this.is_celeb = e;
+}
+
+isCurrentUserCeleb(){    //Check if current is idol or follower
 var user = firebase.auth().currentUser;
+if(user){
+firebase.database().ref().child("idols").on('value', snapshot =>{
+  this.setIsCeleb(snapshot.hasChild(user.uid));
+  console.log("I'm inside");
+})  
+}
+else{
+  this.navCtrl.setRoot(LoginPage);
+}
+
+}
+
+loadProfile(){
+var user = firebase.auth().currentUser;
+var root = 'users/';
+if(this.is_celeb){
+  root = 'idols/';
+}
 if(user&&user.email&&user.uid){
-firebase.database().ref('users/' + user.uid).on('value', snapshot => {
+firebase.database().ref(root + user.uid).on('value', snapshot => {
 this.username = snapshot.val().username;
 this.firstname = snapshot.val().firstname;
 this.lastname = snapshot.val().lastname;
@@ -60,6 +83,18 @@ else{
   this.navCtrl.setRoot(LoginPage);
   console.log("no user signed in")
 }
+}
+
+ngOnInit(){
+this.isCurrentUserCeleb();
+this.loadProfile();
+}
+
+
+
+
+ionViewWillLoad(){
+//load user's data
   }
 
 }
