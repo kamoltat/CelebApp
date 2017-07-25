@@ -33,6 +33,7 @@ signUpIdol(email: string,password: string,username: string,firstname:string,last
           username: username,
           firstname: firstname,
           lastname: lastname,
+          profile_pic_url:"image/default_profile/default_profile_pic.jpg",
           about: ""
 
         });
