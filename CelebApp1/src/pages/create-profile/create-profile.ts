@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone,OnInit } from '@angular/core';
 import {IonicPage, NavController, NavParams,ToastController,LoadingController, App,
 ViewController  ,ModalController } from 'ionic-angular';
 import {UserServiceProvider} from '../../providers/user-service/user-service'
@@ -8,16 +8,17 @@ import {ProfilePage} from '../profile/profile';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {HomePage} from '../home/home';
 import {TabsPage} from '../tabs/tabs';
-import {EditUserPicPage} from '../edit-user-pic/edit-user-pic';
+import {PostPage} from '../post/post';
 import { ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import {LoginPage} from '../login/login';
 
 @Component({
   selector: 'page-create-profile',
   templateUrl: 'create-profile.html',
   providers: [UserServiceProvider]
 })
-export class CreateProfilePage {
+export class CreateProfilePage implements OnInit {
   profile = {} as ProfilePage;
   username:string;
   firstname:string;
@@ -28,8 +29,12 @@ export class CreateProfilePage {
   image: any;
   file: any;
   about:string;
-  public browse = false
+  public browse = false;
   public hide = false;
+  public root = 'users/';
+  is_celeb: any;
+  public imageRoot = 'user_profile/';
+
   
   constructor(public navCtrl: NavController,public zone: NgZone,
   public userProvider: UserServiceProvider, public loadingCtrl: LoadingController,public alertCtrl: AlertController,
@@ -38,6 +43,28 @@ export class CreateProfilePage {
 }
 cancelEdit(){
   this.navCtrl.setRoot(ProfilePage);
+}
+
+setIsCeleb(e){
+  this.is_celeb = e;
+  if(e){
+    this.root = 'idols/';
+    this.imageRoot = 'idol_profile/';
+  }
+}
+
+isCurrentUserCeleb(){    //Check if current is idol or follower
+var user = firebase.auth().currentUser;
+if(user){
+firebase.database().ref().child("idols").on('value', snapshot =>{
+  this.setIsCeleb(snapshot.hasChild(user.uid));
+  console.log("I'm inside");
+})  
+}
+else{
+  this.navCtrl.setRoot(LoginPage);
+}
+
 }
 
 selectfile(e){
@@ -62,10 +89,10 @@ startUpload(){
   var user = firebase.auth().currentUser;
   console.log(this.file);
   if(this.file != null){
-  this.storageRef.child("image/user_profile/"+user.uid+'/'+"profile_pic").put(this.file).
+  this.storageRef.child("image/"+this.imageRoot+user.uid+'/'+"profile_pic").put(this.file).
   then((snapshot) =>{
     this.presentToast();
-  firebase.database().ref('users/' + user.uid +'/profile_pic_url').set("image/user_profile/"+user.uid+'/'+"profile_pic").
+  firebase.database().ref(this.root + user.uid +'/profile_pic_url').set("image/"+this.imageRoot+user.uid+'/'+"profile_pic").
   then(this.appCtrl.getRootNav().setRoot(TabsPage));
   });
   }
@@ -106,9 +133,16 @@ showConfirm() {
           text: 'Yes',
           handler: () => {
             var user = firebase.auth().currentUser;
-            firebase.database().ref('users/' + user.uid +'/profile_pic_url').set("image/default_profile/default_profile_pic.jpg");
-            this.storageRef.child("image/user_profile/"+user.uid+'/'+"profile_pic").delete();
+            
+            firebase.database().ref(this.root + user.uid +'/profile_pic_url').set("image/default_profile/default_profile_pic.jpg");
+            if(this.profile_pic_url == "image/default_profile/default_profile_pic.jpg")
+            {
+              alert("your profile picture is already empty");
+            }
+            else{
+            this.storageRef.child("image/"+this.imageRoot+user.uid+'/'+"profile_pic").delete();
             console.log('Yes clicked');
+            }
           }
         }
       ]
@@ -150,22 +184,21 @@ editPhoto(){
 
 updateProfile(){
   var user = firebase.auth().currentUser;
-  firebase.database().ref('users/' + user.uid +'/username').set(this.username);
+  firebase.database().ref(this.root + user.uid +'/username').set(this.username);
   console.log("update username");
-  firebase.database().ref('users/' + user.uid +'/firstname').set(this.firstname);
+  firebase.database().ref(this.root + user.uid +'/firstname').set(this.firstname);
   console.log("update firstname");
-  firebase.database().ref('users/' + user.uid +'/lastname').set(this.lastname);
+  firebase.database().ref(this.root + user.uid +'/lastname').set(this.lastname);
   console.log("update lastname");
-  firebase.database().ref('users/' + user.uid +'/about').set(this.about);
+  firebase.database().ref(this.root + user.uid +'/about').set(this.about);
   console.log("update about");
   this.startUpload()
   console.log("startupload()");
 }
 
-
-ionViewDidEnter(){
+loadProfile(){
 var user = firebase.auth().currentUser;
-firebase.database().ref('users/' + user.uid).on('value', snapshot => {
+firebase.database().ref(this.root + user.uid).on('value', snapshot => {
 this.username = snapshot.val().username;
 this.firstname = snapshot.val().firstname;
 this.lastname = snapshot.val().lastname;
@@ -179,5 +212,15 @@ firebase.storage().ref().child(this.profile_pic_url).getDownloadURL().then((url)
   });
 console.log("profile: ",this.username, this.firstname, this.lastname, this.profile_pic, this.about)
 });
+}
+
+ngOnInit(){
+this.isCurrentUserCeleb();
+this.loadProfile();
+
+}
+
+ionViewDidEnter(){
+
 }
 }
