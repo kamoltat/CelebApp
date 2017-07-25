@@ -9,14 +9,6 @@
 <ion-content padding>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   
-  <!--ONLY FOR UPPER LIST -> DEMONSTRATE SEARCH BAR -->
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item>
-  </ion-list>
-  <!--END OF DEMONSTRATION-->
-
   <!--DEMONSTRATION ADD DIRECTLY (name only)TO DATABASE-->
   <ion-row>
     <ion-col col-9>
@@ -41,26 +33,19 @@
   <!--END OF DEMONSTRATION-->
 
 
-  
- <!--<ion-list>
+ <ion-list>
     <ion-item>
-        <ion-item-sliding>
+        <ion-item-sliding *ngFor="let item of idolArray">
             <ion-item>
               <ion-thumbnail item-start>
                   <img [src]= "image">
               </ion-thumbnail>
               <h2>{{ item.username }}</h2>
-              <p>{{ item.firstname + item.lastname }}</p>
+              <p>{{ item.firstname }} {{ item.lastname }}</p>
               <button ion-button clear item-end>View</button>
             </ion-item>
-            <ion-item-options side="left">
-              <button ion-button color="danger">
-                <ion-icon name="ignore"></ion-icon>
-                Ignore
-              </button>
-            </ion-item-options>
             <ion-item-options side="right">
-              <button ion-button color="default">
+              <button ion-button (click)="followButtonFunc(item.idolKey, item)" color="default">
                 <ion-icon name="follow"></ion-icon>
                 Follow
               </button>
@@ -68,34 +53,5 @@
         </ion-item-sliding>
     </ion-item>
   </ion-list>
--->
-  <!--
-  <ion-list>
-    <ion-item>
-        <ion-item-sliding *ngFor="let item of idolItems | async">
-            <ion-item>
-              <ion-thumbnail item-start>
-                  <img [src]= "image">
-              </ion-thumbnail>
-              <h2>{{ item.$value }}</h2>
-              <p>*Status from database here*</p>
-              <button ion-button clear item-end>View</button>
-            </ion-item>
-            <ion-item-options side="left">
-              <button ion-button color="danger">
-                <ion-icon name="ignore"></ion-icon>
-                Ignore
-              </button>
-            </ion-item-options>
-            <ion-item-options side="right">
-              <button ion-button color="default">
-                <ion-icon name="follow"></ion-icon>
-                Follow
-              </button>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-item>
-  </ion-list>
--->
 
 </ion-content>

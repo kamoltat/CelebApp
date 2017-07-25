@@ -32,7 +32,8 @@ signUpIdol(email: string,password: string,username: string,firstname:string,last
           password: password,
           username: username,
           firstname: firstname,
-          lastname: lastname
+          lastname: lastname,
+          about: ""
 
         });
       });

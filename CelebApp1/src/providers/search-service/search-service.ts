@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import firebase from 'firebase';
  
 @Injectable()
 export class SearchProvider {
@@ -16,7 +17,7 @@ export class SearchProvider {
   }
  
   addItem(name) {
-    this.afd.list('/idols/').push(name);
+    this.afd.list('/following/').push(name);
   }
  
   removeItem(id) {
