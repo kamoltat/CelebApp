@@ -107,13 +107,12 @@ firebase.database().ref("posts/"+e).orderByKey().once('value').then(snapshot => 
 }
 
 goToPost(){
-  null;
   let PostModal = this.modalCtrl.create(PostPage);
     PostModal.present();
 }
 
 ngOnInit(){
-  
+
 this.isCurrentUserCeleb();
 this.getFollowingId();
 
