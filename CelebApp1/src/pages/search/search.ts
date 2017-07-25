@@ -63,18 +63,15 @@ export class SearchPage {
     });
   }
 
-
-  getIdolKeys(){}
-
   //Initiate Idol Array so that it doesnt get pushed multiple times
   getIdolArray(){
     this.idolArray = this.items;
     console.log('idolArray:',this.idolArray);
   } 
 
-  /////// Adding and removing items /////////
+  ////////////////////////////////////// Adding and removing items ////////////////////////////////////////
   addItem() {
-    //this.firebaseProvider.addItem(this.idolKey);
+    //this.firebaseProvider.addItem('');
     var user = firebase.auth().currentUser;
 
     firebase.database().ref("following").child(user.uid).push("hello")
@@ -84,7 +81,7 @@ export class SearchPage {
   removeItem(id) {
     this.firebaseProvider.removeItem(id);
   }
-  ///// End ////////////////////////////////
+  ////////////////////////////                   End                     ///////////////////////////////////
 
 
   //Initiate at Start of page
@@ -94,7 +91,7 @@ export class SearchPage {
   }
 
 
-  //Adding Followers
+  //Adding function to follow button
   followButtonFunc(idolKey:any,data:any){
     var user = firebase.auth().currentUser;
     firebase.database().ref("following").child(user.uid).child(idolKey).set(data);
