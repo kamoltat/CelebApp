@@ -43,9 +43,9 @@ export class TempProfilePage {
   }
 
   //Adding function to follow button
-  followButtonFunc(idolKey:any){
+  followButtonFunc(){
     var user = firebase.auth().currentUser;
-    firebase.database().ref("following/").child(user.uid).child(idolKey).set(this.data);
+    firebase.database().ref("following/").child(user.uid).child(this.subjUID).set(this.data);
   }
   
   //combine data to put into following database
