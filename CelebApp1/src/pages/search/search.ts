@@ -28,6 +28,7 @@ export class SearchPage implements OnInit {
   public items = new Array();
   public idolKey= new Array();
   public idolArray: any;
+  public followData:any={};
 
   constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
     public af: AngularFireModule, public zone:NgZone, public navParams: NavParams,
@@ -68,6 +69,7 @@ export class SearchPage implements OnInit {
         });
       //merge two objects together (this is to add idol Key into the object of the idol itself.)
       var finalData = Object.assign(childData,temp);
+      delete finalData.password;
       console.log('final Data:', finalData);
       //pushing merged data to items
       this.items.push(finalData);
@@ -116,7 +118,8 @@ export class SearchPage implements OnInit {
   //Adding function to follow button
   followButtonFunc(idolKey:any,data:any){
     var user = firebase.auth().currentUser;
-    firebase.database().ref("following/").child(user.uid).child(idolKey).set("");
+    firebase.database().ref("following/").child(user.uid).child(idolKey).set(data);
+    console.log(data);
   }
 
   //Search Function
@@ -133,7 +136,7 @@ export class SearchPage implements OnInit {
     }
   
   }
-
+  
   setSubjUID(inpUID){
     this._subjectProvider.setSubjUID(inpUID);
     this.navCtrl.push(TempProfilePage);
