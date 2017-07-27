@@ -1,0 +1,39 @@
+<!--
+  Generated template for the CommentPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title text-center>Comments</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-list>
+<ion-item *ngFor = "let comment of listComment">
+  <ion-row>
+   <ion-avatar item-start>
+      <img [src] ="comment.authorPicUrl">
+    </ion-avatar>
+    <h3>{{comment.author}}: {{comment.text}}</h3>
+    
+  </ion-row>
+  <ion-row>
+  <h3>{{comment.timeStamp}} ago</h3>
+  </ion-row>
+</ion-item>
+</ion-list>
+
+</ion-content>
+
+<ion-footer>
+<ion-row>
+      <ion-textarea type = "text" [(ngModel)] = "commentText" value = "" placeholder="Write a comment..."></ion-textarea>
+     <button [class.hide]="!commentText"  ion-button icon-left clear small (click)="postClicked()">Post</button>
+</ion-row>
+</ion-footer>

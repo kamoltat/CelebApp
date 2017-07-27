@@ -21,7 +21,7 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CONFIG} from "./app.firebase.config";
 import {PostPage} from "../pages/post/post";
 import {CreateProfilePage} from "../pages/create-profile/create-profile";
-
+import {CommentPage} from "../pages/comment/comment";
 import * as firebase from 'firebase';
 import { SignupIdolPage } from '../pages/signup-idol/signup-idol';
 import { IdolServiceProvider } from '../providers/idol-service/idol-service';
@@ -38,7 +38,8 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     LoginPage,
     CreateProfilePage,
     SignupIdolPage,
-    PostPage
+    PostPage,
+    CommentPage
  
     
 
@@ -68,7 +69,8 @@ import { IdolServiceProvider } from '../providers/idol-service/idol-service';
     RegisterPage,
     CreateProfilePage,
     SignupIdolPage,
-    PostPage
+    PostPage,
+    CommentPage
     
 
     
