@@ -34,10 +34,11 @@ export class TempProfilePage {
   profile_pic_url:any;  
   is_celeb:any;
   subjUID:any;
+  public following= new Array();
 
   constructor(public navCtrl: NavController, private _subjectProvider:SubjectProvider,public zone:NgZone,
- public appCtrl: App, private afDatabase: AngularFireDatabase, private afAuth: AngularFireAuth,
-  private toastCtrl:ToastController) {
+              public appCtrl: App, private afDatabase: AngularFireDatabase, private afAuth: AngularFireAuth,
+              private toastCtrl:ToastController) {
   }
 
   setIsCeleb(e){
