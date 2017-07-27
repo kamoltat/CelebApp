@@ -47,9 +47,8 @@ isCurrentUserCeleb(){    //Check if current is idol or follower
 var user = firebase.auth().currentUser;
 if(user){
 firebase.database().ref().child("idols").on('value', snapshot =>{
-  this.setIsCeleb(snapshot.hasChild(user.uid));
-  console.log("I'm inside");
-})  
+    this.setIsCeleb(snapshot.hasChild(user.uid));
+  })  
 }
 else{
   this.navCtrl.setRoot(LoginPage);
@@ -64,6 +63,7 @@ if(this.is_celeb){
   root = 'idols/';
 }
 if(user&&user.email&&user.uid){
+console.log("profile user.uid:",user.uid);
 firebase.database().ref(root + user.uid).on('value', snapshot => {
 this.username = snapshot.val().username;
 this.firstname = snapshot.val().firstname;

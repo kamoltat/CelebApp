@@ -1,12 +1,37 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>tempProfile</ion-title>
+    <ion-title  text-center>{{username}}</ion-title> 
   </ion-navbar>
 
 </ion-header>
 
+<div padding>
+    <ion-segment [(ngModel)]="upperProfile">
+      <ion-segment-button value="follows">
+        Follows
+      </ion-segment-button>
+      <ion-segment-button value="likes">
+        Likes
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
 <ion-content padding>
+  <ion-fab top right>
+  <button color="dark" ion-fab mini fab-content-margin><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list>
+      <button ion-fab><ion-icon name="book"></ion-icon></button>
+      <button ion-fab><ion-icon name="checkbox"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
 
+  <ion-card padding>
+   
+    <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
+    : 200px; width: 200px; "/>
+  <ion-card-title text-center>127,030</ion-card-title>
+  </ion-card>
+
+  
 </ion-content>

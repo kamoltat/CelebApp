@@ -1,5 +1,5 @@
 import { SearchProvider } from '../../providers/search-service/search-service';
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit,Injectable } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
@@ -9,6 +9,8 @@ import { IdolServiceProvider } from '../../providers/idol-service/idol-service';
 import {LoginPage } from '../login/login';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database'
 import { AngularFireAuth } from 'angularfire2/auth';
+import { TempProfilePage } from '../temp-profile/temp-profile';
+import { SubjectProvider } from '../../providers/subject-service/subject-service';
 
 
 @Component({
@@ -17,6 +19,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
   providers:[SearchProvider]
 })
 
+@Injectable()
 export class SearchPage implements OnInit {
   searchQuery: string = '';
   newItem ='';
@@ -27,7 +30,8 @@ export class SearchPage implements OnInit {
   public idolArray: any;
 
   constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
-    public af: AngularFireModule, public zone:NgZone, public navParams: NavParams) {
+    public af: AngularFireModule, public zone:NgZone, public navParams: NavParams,
+    private _subjectProvider: SubjectProvider){
     
 
     console.log("I'm in search page")
@@ -128,6 +132,11 @@ export class SearchPage implements OnInit {
         })
     }
   
+  }
+
+  setSubjUID(inpUID){
+    this._subjectProvider.setSubjUID(inpUID);
+    this.navCtrl.push(TempProfilePage);
   }
 
   // navToUserProf(){

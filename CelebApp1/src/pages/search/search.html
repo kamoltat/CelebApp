@@ -42,7 +42,9 @@
               </ion-thumbnail>
               <h2>{{ item.username }}</h2>
               <p>{{ item.firstname }} {{ item.lastname }}</p>
-              <button ion-button clear item-end>View</button>
+              <button ion-button clear item-end (click)="setSubjUID(item.idolKey)">
+                View
+              </button>
             </ion-item>
             <ion-item-options side="right">
               <button ion-button (click)="followButtonFunc(item.idolKey, item)" color="default">
