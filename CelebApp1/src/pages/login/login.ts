@@ -28,7 +28,7 @@ export class LoginPage {
   public loadingCtrl:LoadingController, public AlertCtrl:AlertController,
   public toastCtrl: ToastController, public app:App) {
 
-  this.emailField = "junior@junior.com";
+  this.emailField = "juniorsirivadhna@gmail.com";
   this.passwordField = "password";
   
   }
