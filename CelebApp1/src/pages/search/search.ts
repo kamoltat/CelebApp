@@ -1,5 +1,5 @@
 import { SearchProvider } from '../../providers/search-service/search-service';
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit,Injectable } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
@@ -9,6 +9,8 @@ import { IdolServiceProvider } from '../../providers/idol-service/idol-service';
 import {LoginPage } from '../login/login';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database'
 import { AngularFireAuth } from 'angularfire2/auth';
+import { TempProfilePage } from '../temp-profile/temp-profile';
+import { SubjectProvider } from '../../providers/subject-service/subject-service';
 
 
 @Component({
@@ -17,6 +19,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
   providers:[SearchProvider]
 })
 
+@Injectable()
 export class SearchPage implements OnInit {
   searchQuery: string = '';
   newItem ='';
@@ -25,9 +28,11 @@ export class SearchPage implements OnInit {
   public items = new Array();
   public idolKey= new Array();
   public idolArray: any;
+  public followData:any={};
 
   constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
-    public af: AngularFireModule, public zone:NgZone, public navParams: NavParams) {
+    public af: AngularFireModule, public zone:NgZone, public navParams: NavParams,
+    private _subjectProvider: SubjectProvider){
     
 
     console.log("I'm in search page")
@@ -64,6 +69,7 @@ export class SearchPage implements OnInit {
         });
       //merge two objects together (this is to add idol Key into the object of the idol itself.)
       var finalData = Object.assign(childData,temp);
+      delete finalData.password;
       console.log('final Data:', finalData);
       //pushing merged data to items
       this.items.push(finalData);
@@ -112,7 +118,8 @@ export class SearchPage implements OnInit {
   //Adding function to follow button
   followButtonFunc(idolKey:any,data:any){
     var user = firebase.auth().currentUser;
-    firebase.database().ref("following/").child(user.uid).child(idolKey).set("");
+    firebase.database().ref("following/").child(user.uid).child(idolKey).set(data);
+    console.log(data);
   }
 
   //Search Function
@@ -128,6 +135,11 @@ export class SearchPage implements OnInit {
         })
     }
   
+  }
+  
+  setSubjUID(inpUID){
+    this._subjectProvider.setSubjUID(inpUID);
+    this.navCtrl.push(TempProfilePage);
   }
 
   // navToUserProf(){

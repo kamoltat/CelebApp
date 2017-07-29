@@ -1,12 +1,72 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>tempProfile</ion-title>
+    <ion-title  text-center>{{username}}</ion-title> 
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-fab top right>
+  <button color="dark" ion-fab mini fab-content-margin><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list>
+      <button ion-fab><ion-icon name="book"></ion-icon></button>
+      <button ion-fab><ion-icon name="checkbox"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
 
+  <ion-card padding>
+    <ion-item>
+      <h2>{{firstname}} {{lastname}}</h2>
+      <button ion-button item-end outline (click)="followButtonFunc()">follow</button>
+    </ion-item>
+    <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
+    : 200px; width: 200px; "/>
+    <ion-card-title text-center>127,030</ion-card-title>
+  </ion-card>
+
+  <div padding>
+    <ion-segment [(ngModel)]="lowerProfile">
+      <ion-segment-button value="posts">
+        Posts
+      </ion-segment-button>
+      <ion-segment-button value="quests">
+        Quests
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Favorite
+      </ion-segment-button>
+      <ion-segment-button value="following">
+        Following
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="lowerProfile">
+
+    <ion-card *ngSwitchDefault>
+      <h1>Posts here</h1>
+    </ion-card>
+
+    <ion-card *ngSwitchCase="'quests'">
+      <h1>Quests here</h1>
+    </ion-card>
+
+    <ion-slides *ngSwitchCase="'favorites'">
+      <ion-slide>
+        <h1>Favorites here</h1>
+        <p>Slide 1</p>
+      </ion-slide>
+      <ion-slide>
+        <h1>Slide 2</h1>>
+      </ion-slide>
+    </ion-slides>
+
+    <ion-card *ngSwitchCase="'following'">
+      <ion-list>
+      </ion-list>
+    </ion-card>
+
+  </div>
 </ion-content>
