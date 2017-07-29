@@ -6,6 +6,7 @@ import {AngularFireDatabase, FirebaseObjectObservable,FirebaseListObservable} fr
 import {CreateProfilePage} from '../create-profile/create-profile';
 import {PostPage} from '../post/post';
 import {LoginPage} from "../login/login";
+import {CommentPage} from "../comment/comment";
 import firebase from 'firebase';
 
 @Component({
@@ -23,14 +24,15 @@ export class HomePage implements OnInit {
   public image:any;
   public authorImage:any;
   public postImage:any;
-
+  public currentuid:any
+  
 
   
   constructor(public navCtrl: NavController, 
   public userProvider: UserServiceProvider, 
   public afAuth: AngularFireAuth, private toastCtrl: ToastController, 
   private afDatabase: AngularFireDatabase, private zone: NgZone, public modalCtrl:ModalController) {
-  
+  this.currentuid = firebase.auth().currentUser;
 }
 setIsCeleb(e){
   this.is_celeb = e;
@@ -67,20 +69,26 @@ getFollowingId(){
 
 
 getPost(e){
+var counter = -1;
 // var user = firebase.auth().currentUser;
-firebase.database().ref("posts/"+e).orderByKey().once('value').then(snapshot => {
+firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value').then(snapshot => {
     snapshot.forEach(childSnapshot =>{
+    
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
-    console.log("hiiiii",childData);
+    console.log("childSnapshot");
     console.log(childData['post_pic_url']);
+    
+    
     
     firebase.storage().ref().child(childData['authorPicUrl'].toString()).getDownloadURL().then((url)=> 
   {
     this.zone.run(()=>{
-    childData['authorPicUrl']= url;
+    childData['authorPicUrl'] = url;
+    
     }).catch(e => {
     console.log(e);
+    
   });
   }).catch(e => {
     console.log(e);
@@ -89,6 +97,7 @@ firebase.database().ref("posts/"+e).orderByKey().once('value').then(snapshot => 
   firebase.storage().ref().child(childData['post_pic_url'].toString()).getDownloadURL().then((data) => 
   {
     this.zone.run(()=>{
+
     childData['post_pic_url'] = data;
     }).catch(e => {
     console.log(e);
@@ -97,9 +106,16 @@ firebase.database().ref("posts/"+e).orderByKey().once('value').then(snapshot => 
     console.log(e);
   });
   }
+  counter++
+  console.log("counter: ",counter)
+  childData.arrayIndex = counter;
+  childData.key = childKey;
+  childData.uid = e;
+  
   this.list_posts.push(childData);
-  console.log("child dataL: ",childData);
-  console.log("list_posts:", this.list_posts);
+  console.log(this.list_posts);
+  // this.list_posts.push(childData);
+  // console.log("child dataL: ",childData);
     }); 
   }).catch(e => {
     console.log(e);
@@ -109,23 +125,60 @@ firebase.database().ref("posts/"+e).orderByKey().once('value').then(snapshot => 
 goToPost(){
   let PostModal = this.modalCtrl.create(PostPage);
     PostModal.present();
+ }
+
+ togglelikes(p,e,uid){
+   var user = firebase.auth().currentUser;
+   var postRef = firebase.database().ref("posts/"+uid+"/"+e); 
+    postRef.transaction(post =>{
+    console.log("p", p);
+    console.log("this", this.list_posts);
+    console.log(this.list_posts[p]);
+   
+    if (post) {
+      if (post.likes && post.likes[user.uid]) {
+        post.likeCount--;
+        this.list_posts[p].likeCount--;
+        post.likes[user.uid] = null;
+        this.list_posts[p].likes[user.uid] =null;
+      } else {
+        post.likeCount++;
+        this.list_posts[p].likeCount++;
+        if (!post.likes) {
+          post.likes = {};
+          this.list_posts[p].likes = {};
+        }
+        this.list_posts[p].likes[user.uid] =true;
+        post.likes[user.uid] = true;
+        
+      }
+    }
+   ;
+    return post;
+},function(){},true);
+ }
+
+
+ clickComment(e,uid){
+   this.navCtrl.push(CommentPage,{
+     postid: e, 
+     postuid:uid});
+ }
+
+
+clickLikeButton(p,e,uid){ //e in this function is the key of each post which we can get by clicking on the button, uid is the poster's uid
+this.togglelikes(p,e,uid);
 }
+
 
 ngOnInit(){
-
 this.isCurrentUserCeleb();
 this.getFollowingId();
-
 }
 
-
-ionViewWillLoad(){
-
+ionViewDidEnter(){
 
 }
-
-
-
 
 
 }

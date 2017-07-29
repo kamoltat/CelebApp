@@ -23,6 +23,10 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CONFIG} from "./app.firebase.config";
+import {PostPage} from "../pages/post/post";
+import {CreateProfilePage} from "../pages/create-profile/create-profile";
+import {CommentPage} from "../pages/comment/comment";
+
 import * as firebase from 'firebase';
 
 
@@ -44,6 +48,8 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     SignupIdolPage,
     PostPage,
     TempProfilePage
+    CommentPage
+
  
     
 
@@ -75,6 +81,7 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     SignupIdolPage,
     PostPage,
     TempProfilePage
+    CommentPage
     
 
     
