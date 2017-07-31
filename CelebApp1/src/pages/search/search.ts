@@ -39,13 +39,13 @@ export class SearchPage implements OnInit {
   
   }
 
-  getImage(childData){
-    this.storageRef.child(childData['profile_pic_url']).getDownloadURL().then((url)=>{
-      this.zone.run(() =>{ this.image = url;
-    });
-    });
-    return this.image;
-  }
+  // getImage(childData){
+  //   this.storageRef.child(childData['profile_pic_url']).getDownloadURL().then((url)=>{
+  //     this.zone.run(() =>{ this.image = url;
+  //   });
+  //   });
+  //   return this.image;
+  // }
 
 
   //Getting idols from firebase
@@ -62,22 +62,21 @@ export class SearchPage implements OnInit {
       this.storageRef.child(childData['profile_pic_url']).getDownloadURL().then((url)=>{
       this.zone.run(() =>{ childData['profile_pic_url'] = url;
     }).catch(e=>{
-          console.log(e);
+          console.log("");
         });
     }).catch(e=>{
-          console.log(e);
+          console.log("");
         });
       //merge two objects together (this is to add idol Key into the object of the idol itself.)
       var finalData = Object.assign(childData,temp);
       delete finalData.password;
-      console.log('final Data:', finalData);
       //pushing merged data to items
       this.items.push(finalData);
         }).catch(e=>{
-          console.log(e);
+          console.log("");
         });
     }).catch(e=>{
-          console.log(e);
+          console.log("");
         }); 
   }
 
