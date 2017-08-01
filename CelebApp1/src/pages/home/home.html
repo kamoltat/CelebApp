@@ -3,7 +3,12 @@
     <ion-title text-center>Homepage</ion-title>
   </ion-navbar> 
 </ion-header>
-<ion-content padding >
+<ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-fab bottom right>
     <button ion-fab *ngIf = "is_celeb" (click) = "goToPost()">
     <ion-icon name="create"></ion-icon>
@@ -19,7 +24,9 @@
     </ion-avatar>
     <h2>{{post.author}}</h2>
     <p>(location)</p> 
+    <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;" >...</button>
   </ion-item>
+  
 
   <img *ngIf = "post.post_pic_url" [src]= "post.post_pic_url">
 
@@ -29,13 +36,13 @@
 
   <ion-row>
     <ion-col>
-      <button ion-button icon-left clear small (click)= "clickLikeButton(post.arrayIndex,post.key,post.uid)">
+      <button ion-button icon-left clear small (click)= "clickLikeButton(post,post.key,post.uid)">
         <ion-icon name="thumbs-up"></ion-icon>
         <div>{{post.likeCount}} Likes</div>
       </button>
     </ion-col>
     <ion-col>
-      <button ion-button icon-left clear small (click)="clickComment(post.key,post.uid)"> 
+      <button ion-button icon-left clear small (click)="clickComment(post.key,post.uid,post,list_posts)"> 
         <ion-icon name="text"></ion-icon>
         <div>{{post.commentCount}} Comments</div>
       </button>
@@ -47,9 +54,7 @@
       </button>
     </ion-col>
     <ion-col center text-center>
-      <ion-note>
-        {{post.timeStamp}} ago
-      </ion-note>
+      <ion-note>{{post.timeStamp}}</ion-note>
     </ion-col>
   </ion-row>
 
