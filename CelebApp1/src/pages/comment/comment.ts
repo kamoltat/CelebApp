@@ -1,7 +1,9 @@
-import { Component,OnInit, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
+import { Component,OnInit, NgZone, } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import firebase from 'firebase';
 import {LoginPage} from '../login/login';
+import {ShareServiceProvider} from '../../providers/share-service/share-service';
+import {HomePage} from '../home/home';
 
 /**
  * Generated class for the CommentPage page.
@@ -13,13 +15,17 @@ import {LoginPage} from '../login/login';
 @Component({
   selector: 'page-comment',
   templateUrl: 'comment.html',
+  providers: [ShareServiceProvider]
+  
 })
 
 
 
 export class CommentPage implements OnInit {
+  
   public commentText = "";
   public postid:any;
+  public post:any;
   public postuid:any;
   public username:any;
   public profile_pic_url:any;
@@ -28,12 +34,21 @@ export class CommentPage implements OnInit {
   public imageRoot = "user_profile/";
   public timeStamp = Date.now();
   public listComment = new Array();
+  private postObject:any;
+  public currentUserId:any;
+  public listPost:any;
   
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alert:AlertController, public zone:NgZone) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+    public alert:AlertController, public zone:NgZone, public shareService: ShareServiceProvider,) {
      this.postid = navParams.get('postid');
      this.postuid = navParams.get('postuid');
+     this.postObject = navParams.get('post');
+     this.listPost = navParams.get('list_post');
+     this.shareService.setCommentPosts(this.postuid,this.postid);
+     this.currentUserId = firebase.auth().currentUser.uid;
+  
   }
 
 setIsCeleb(e){
@@ -57,7 +72,41 @@ else{
 }
 }
 
-  
+deleteClicked(comment,commentKey){
+  console.log(commentKey);
+  let confirm = this.alert.create({
+      title: 'Delete Comment?',
+      message: 'Are you sure want to delete your comment?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            console.log(comment);
+            var i = this.listComment.indexOf(comment);
+            this.listComment.splice(i,1);
+            firebase.database().ref('posts/'+this.postuid+'/'+this.postid+'/'+'comments/'+commentKey).remove();
+            firebase.database().ref('posts/'+this.postuid+'/'+this.postid+'/commentCount').transaction(count => {
+                if(count){
+                  count--;
+                  var i = this.listPost.indexOf(this.postObject);
+                  this.listPost[i].commentCount --;
+                  
+                }
+                return count;
+              });
+                      }
+                    }
+                  ]
+                });
+    confirm.present();
+}
 
 postClicked(){
     var user = firebase.auth().currentUser;
@@ -69,6 +118,8 @@ postClicked(){
     if(!post.commentCount){
     post.commentCount = 0;
     }
+    var i = this.listPost.indexOf(this.postObject);
+    this.listPost[i].commentCount ++;
     post.commentCount++;
     if(!post.comments){
     post.comments = {};
@@ -95,40 +146,12 @@ postClicked(){
     console.log(e);
   });
     this.listComment.push(commentObject)
-    
     }
     return post;
     }); 
     alert("posted!");
   }
 
-getComment(){
-var user = firebase.auth().currentUser;
-var postRef = firebase.database().ref("posts/"+this.postuid+"/"+this.postid+"/comments");
-postRef.once('value').then( snapshot => {
-snapshot.forEach(childSnapshot =>{
-var childKey = childSnapshot.key;
-var childData = childSnapshot.val();
-console.log("childData:",childData);
-firebase.storage().ref().child(childData['authorPicUrl'].toString()).getDownloadURL().then((url)=> 
-  {
-    this.zone.run(()=>{
-    childData['authorPicUrl'] = url;
-    
-    }).catch(e => {
-    console.log(e);
-      
-  });
-  }).catch(e => {
-    console.log(e);
-  });
-  this.listComment.push(childData);
-  console.log(this.listComment);
-    }); 
-  }).catch(e => {
-    console.log(e);
-  });
-}
     
 setUserProfile(){
 var user = firebase.auth().currentUser;
@@ -140,12 +163,17 @@ this.profile_pic_url = snapshot.val().profile_pic_url;
 
 ngOnInit(){
     this.isCurrentUserCeleb();
-    this.getComment();
+    // this.getComment();
+    this.listComment = this.shareService.getCommentPost();
     this.setUserProfile();
 }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CommentPage');
   }
+  ionViewDidEnter(){
+    
+  }
+  
 
 }

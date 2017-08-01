@@ -14,17 +14,13 @@ import { SignupIdolPage } from '../pages/signup-idol/signup-idol';
 import { PostPage } from "../pages/post/post";
 import { RegisterPage } from '../pages/register/register';
 import {CreateProfilePage} from "../pages/create-profile/create-profile";
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
-
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FIREBASE_CONFIG} from "./app.firebase.config";
-import {PostPage} from "../pages/post/post";
-import {CreateProfilePage} from "../pages/create-profile/create-profile";
 import {CommentPage} from "../pages/comment/comment";
 
 import * as firebase from 'firebase';
@@ -33,6 +29,7 @@ import * as firebase from 'firebase';
 import { IdolServiceProvider } from '../providers/idol-service/idol-service';
 import { SubjectProvider } from '../providers/subject-service/subject-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
+import { ShareServiceProvider } from '../providers/share-service/share-service';
 
 @NgModule({
   declarations: [
@@ -47,7 +44,7 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     CreateProfilePage,
     SignupIdolPage,
     PostPage,
-    TempProfilePage
+    TempProfilePage,
     CommentPage
 
  
@@ -80,7 +77,7 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     CreateProfilePage,
     SignupIdolPage,
     PostPage,
-    TempProfilePage
+    TempProfilePage,
     CommentPage
     
 
@@ -93,7 +90,8 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserServiceProvider,
     IdolServiceProvider,
-    SubjectProvider
+    SubjectProvider,
+    ShareServiceProvider
 
    
     
