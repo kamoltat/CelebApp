@@ -9,11 +9,13 @@ import {LoginPage} from "../login/login";
 import {CommentPage} from "../comment/comment";
 import firebase from 'firebase';
 import{ShareServiceProvider} from '../../providers/share-service/share-service';
+import{SubjectProvider} from '../../providers/subject-service/subject-service';
+import{TempProfilePage} from '../temp-profile/temp-profile';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [ShareServiceProvider]
+  providers: [ShareServiceProvider,SubjectProvider]
 })
 
 
@@ -33,7 +35,7 @@ export class HomePage implements OnInit {
   public userProvider: UserServiceProvider, 
   public afAuth: AngularFireAuth, private toastCtrl: ToastController, 
   private afDatabase: AngularFireDatabase, private zone: NgZone,
-  public modalCtrl:ModalController, private shareService:ShareServiceProvider) {
+  public modalCtrl:ModalController, private shareService:ShareServiceProvider, private _subjectProvider:SubjectProvider) {
   this.currentuid = firebase.auth().currentUser;
   this.shareService.setPostsByFollowingId();
  
@@ -122,7 +124,13 @@ goToPost(){
 
 
 clickLikeButton(p,e,uid){ //e in this function is the key of each post which we can get by clicking on the button, uid is the poster's uid
-this.togglelikes(p,e,uid);
+  this.togglelikes(p,e,uid);
+}
+
+ setSubjUID(inpUID){
+   console.log(inpUID);
+   this._subjectProvider.setSubjUID(inpUID);
+   this.navCtrl.push(TempProfilePage);
 }
 
 
