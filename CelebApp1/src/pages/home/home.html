@@ -28,7 +28,8 @@
     </ion-avatar>
     <h2 (click) = "setSubjUID(post.uid)">{{post.author}}</h2>
     <p>(location)</p> 
-    <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;" >...</button>
+    <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;"
+    (click) = "clickOptions(list_posts,post,post.uid, post.key)" >...</button>
   </ion-item>
   
 
@@ -40,7 +41,7 @@
 
   <ion-row>
     <ion-col>
-      <button ion-button icon-left clear small (click)= "clickLikeButton(post,post.key,post.uid)">
+      <button ion-button icon-left clear small [style.color] = "getLikeColor(post)" (click)= "clickLikeButton(post,post.key,post.uid)">
         <ion-icon name="thumbs-up"></ion-icon>
         <div>{{post.likeCount}} Likes</div>
       </button>
