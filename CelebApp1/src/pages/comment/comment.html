@@ -13,9 +13,10 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding = true>
 <ion-list>
-<ion-item *ngFor = "let comment of listComment">
+<ion-item-sliding *ngFor = "let comment of listComment">
+<ion-item>
   <ion-row>
    <ion-avatar item-start>
       <img [src] ="comment.authorPicUrl">
@@ -24,9 +25,14 @@
     
   </ion-row>
   <ion-row>
-  <h3>{{comment.timeStamp}} ago</h3>
+  <h3>{{comment.timeStamp}}</h3>
   </ion-row>
 </ion-item>
+ <ion-item-options side="right">
+    <button *ngIf = "comment.authorUid == currentUserId" ion-button color="danger"(click)="deleteClicked(comment,comment.key)"> 
+      Delete</button>
+</ion-item-options>
+</ion-item-sliding>
 </ion-list>
 
 </ion-content>
