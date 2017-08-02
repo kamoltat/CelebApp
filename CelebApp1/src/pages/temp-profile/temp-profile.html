@@ -65,7 +65,27 @@
 
     <ion-card *ngSwitchCase="'following'">
       <ion-list>
-      </ion-list>
+        <ion-item>
+          <ion-item-sliding *ngFor="let item of followingArr">
+            <ion-item>
+              <ion-thumbnail item-start>
+                  <img [src]= "item.profile_pic_url">
+              </ion-thumbnail>
+              <h2>{{ item.username }}</h2>
+              <p>{{ item.firstname }} {{ item.lastname }}</p>
+              <button ion-button clear item-end (click)="setSubjUID(item.idolKey)">
+                View
+              </button>
+            </ion-item>
+            <ion-item-options side="right">
+              <button ion-button  color="default">
+                <ion-icon name="follow"></ion-icon>
+                Follow
+              </button>
+            </ion-item-options>
+        </ion-item-sliding>
+      </ion-item>
+    </ion-list>
     </ion-card>
 
   </div>

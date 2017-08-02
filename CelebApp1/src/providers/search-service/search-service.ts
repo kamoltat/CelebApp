@@ -1,20 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable,NgZone } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import firebase from 'firebase';
- 
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireModule } from 'angularfire2';
+
+
 @Injectable()
 export class SearchProvider {
 
   idolItems2: any;
+  public container= new Array();
  
-  constructor(public afd: AngularFireDatabase) {
+  constructor(public afd: AngularFireDatabase, public zone: NgZone) {
     this.idolItems2 = firebase.database().ref('idols');
 
   }
- 
-  getIdols() {
-    return this.afd.list('/idols/');
-  }
+
  
   addItem(name) {
     this.afd.list('/following/').push(name);

@@ -32,7 +32,11 @@ export class TempProfilePage {
   is_celeb:any;
   subjUID:any;
   public following= new Array();
+  public followingArr = new Array();
   public data:any={};
+  refString = "following/"+this.subjUID;
+  storageRef = firebase.storage().ref();
+
   
   constructor(public navCtrl: NavController, private _subjectProvider:SubjectProvider,public zone:NgZone,
               public appCtrl: App, private afDatabase: AngularFireDatabase, private afAuth: AngularFireAuth,
@@ -55,10 +59,45 @@ export class TempProfilePage {
     this.data.username=this.username;
   }
 
-  getFollowing(){
+  
     //get who the user is following and the data in there.
     //then put in array
+  getFollowing(){
+    var temp:any={};    
+    var query = firebase.database().ref("following").child(this.subjUID).orderByKey();
+    query.once("value")
+    .then(snapshot => {
+    snapshot.forEach(childSnapshot => {
+      var key = childSnapshot.key;
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+      temp.idolKey = key;
+      this.storageRef.child(childData['profile_pic_url']).getDownloadURL().then((url)=>{
+      this.zone.run(() =>{ childData['profile_pic_url'] = url;
+    }).catch(e=>{
+          console.log("");
+        });
+    }).catch(e=>{
+          console.log("");
+        });
+      //merge two objects together (this is to add idol Key into the object of the idol itself.)
+      var finalData = Object.assign(childData,temp);
+      delete finalData.password;
+      //pushing merged data to items
+      this.following.push(finalData);
+        }).catch(e=>{
+          console.log("");
+        });
+    }).catch(e=>{
+          console.log("");
+        }); 
   }
+
+  getFollowingArray(){
+    this.followingArr = this.following;
+  }
+
+  
 
   setIsCeleb(e){
     this.is_celeb = e;
@@ -104,6 +143,8 @@ export class TempProfilePage {
     this.isCurrentUserCeleb();
     this.loadProfile();
     this.combineData();
+    this.getFollowing();
+    this.getFollowingArray();
   }
   
   ionViewDidLoad() {

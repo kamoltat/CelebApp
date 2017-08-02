@@ -3,18 +3,22 @@
     <ion-title text-center>Homepage</ion-title>
   </ion-navbar> 
 </ion-header>
+
 <ion-content padding>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+
   <ion-fab bottom right>
     <button ion-fab *ngIf = "is_celeb" (click) = "goToPost()">
     <ion-icon name="create"></ion-icon>
     </button>
   </ion-fab>
+  
   <ion-list *ngIf ="list_posts">
+
   <ion-item *ngFor = "let post of list_posts">
   <ion-card>
 
@@ -61,6 +65,7 @@
 </ion-card>
   </ion-item>
   </ion-list>
+
 </ion-content>
 
 
