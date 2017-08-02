@@ -123,6 +123,7 @@ post(){
   }
   this.ViewCtrl.dismiss();
 }
+
 ionViewWillLoad(){
 var user = firebase.auth().currentUser;
 if(user&&user.email&&user.uid){
