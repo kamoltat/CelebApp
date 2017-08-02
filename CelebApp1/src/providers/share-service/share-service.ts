@@ -43,17 +43,14 @@ setPost(e){
 // var user = firebase.auth().currentUser;
 firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value',snapshot => {
       snapshot.forEach(element => {
-      this.postList.pop();
+      this.postList.pop();  
       return false;
     });
+    
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();  
-    console.log("childSnapshot");
-    console.log(childData['post_pic_url']);
-    
-    
-    
+  
     firebase.storage().ref().child(childData['authorPicUrl'].toString()).getDownloadURL().then((url)=> 
   {
     this.zone.run(()=>{
@@ -83,6 +80,7 @@ firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value',snaps
   childData.key = childKey;
   childData.uid = e;
   this.postList.push(childData);
+
   console.log(this.postList)
   return false;
     }); 
