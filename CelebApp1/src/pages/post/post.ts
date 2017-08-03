@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase, FirebaseObjectObservable,FirebaseListObservable} from 'angularfire2/database';
 import {CreateProfilePage} from '../create-profile/create-profile';
+import {ShareServiceProvider} from '../../providers/share-service/share-service';
 /**
  * Generated class for the PostPage page.
  *
@@ -15,6 +16,7 @@ import {CreateProfilePage} from '../create-profile/create-profile';
 @Component({
   selector: 'page-post',
   templateUrl: 'post.html',
+  providers: [ShareServiceProvider]
 })
 
 export class  PostPage {
@@ -26,15 +28,17 @@ export class  PostPage {
   public username:any; 
   public timeStamp: any;
   public authorPicUrl:any;
+  private listPosts:any;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController, public navParams:NavParams,
   public userProvider: UserServiceProvider, 
   public afAuth: AngularFireAuth, private toastCtrl: ToastController, 
-  private afDatabase: AngularFireDatabase, public zone: NgZone, public ViewCtrl: ViewController) {
+  private afDatabase: AngularFireDatabase, public zone: NgZone, public ViewCtrl: ViewController,
+  private shareservice:ShareServiceProvider) {
   var user = firebase.auth().currentUser;
   this.timeStamp = Date.now();
-
   this.postkey = firebase.database().ref('post/'+user.uid).push().key;
+  this.listPosts = this.navParams.get('list_posts');
 }
   closePostPage(){
     this.ViewCtrl.dismiss();
@@ -49,16 +53,30 @@ export class  PostPage {
    this.readPhoto(this.file);
 }
 
-startUpload(){
-  var user = firebase.auth().currentUser
+startUpload(postData){
+  var user = firebase.auth().currentUser;
   this.storageRef.child('image/posts/'+user.uid+'/'+this.postkey+'/post_pic').put(this.file).
   then((snapshot) =>{
     alert("upload " + this.file.name+" success!");
     var user = firebase.auth().currentUser;
     firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/post_pic_url').set('image/posts/'+user.uid+'/'+this.postkey+'/post_pic');
+    this.storageRef.child('image/posts/'+user.uid+'/'+this.postkey+'/post_pic').getDownloadURL().then((url)=> 
+  {
+    this.zone.run(()=>{
+    postData['post_pic_url'] = url;
     
+    }).catch(e => {
+    console.log(e);
+      
+  });
+  }).catch(e => {
+    console.log(e);
+  });
+    this.listPosts.push(postData);
+    console.log(postData)
   });
 }
+
 readPhoto(file){
   let reader = new FileReader();
   reader.onload = (e) =>{
@@ -84,11 +102,28 @@ post(){
     
   };
   firebase.database().ref('posts/' + user.uid+'/'+this.postkey).set(postData);
+  this.storageRef.child(this.authorPicUrl.toString()).getDownloadURL().then((url)=> 
+  {
+    this.zone.run(()=>{
+    postData['authorPicUrl'] = url;
+    
+    }).catch(e => {
+    console.log(e);
+      
+  });
+  }).catch(e => {
+    console.log(e);
+  });
   if(this.image != null){
-    this.startUpload();
+    this.startUpload(postData);
   }
-
+  else{
+    console.log(postData);
+    this.listPosts.push(postData);
+  }
+  this.ViewCtrl.dismiss();
 }
+
 ionViewWillLoad(){
 var user = firebase.auth().currentUser;
 if(user&&user.email&&user.uid){

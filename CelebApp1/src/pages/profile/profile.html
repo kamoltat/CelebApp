@@ -1,15 +1,14 @@
 <ion-header>
   <ion-navbar>
-    
-    <ion-title  text-center>{{username}}</ion-title>
-      <ion-buttons>
-        <button (click) = "logUserOut()" style="float: right; text-align: right">
-        <ion-icon name="log-out"></ion-icon> Logout
-        </button>
-      <button style="float: left; text-align: left" (click) = "goToCreateProfile()"> 
-      <ion-icon name= "hammer"></ion-icon> Edit
+    <ion-row>
+      <button ion-button clear style="float: left; text-align: left" (click) = "goToCreateProfile()"> 
+      <ion-icon name= "hammer"></ion-icon>
       </button>
-      </ion-buttons>
+    <ion-title  text-center>{{username}}</ion-title>
+        <button ion-button clear (click) = "logUserOut()" style="float: right; text-align: right">
+        <ion-icon name="log-out"></ion-icon>
+        </button>
+    </ion-row>
       
       
       

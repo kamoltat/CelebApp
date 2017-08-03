@@ -1,15 +1,10 @@
 import { Component,NgZone,OnInit,Injectable } from '@angular/core';
 import { App,ToastController, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { SearchProvider } from '../../providers/search-service/search-service';
-
-
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
 import firebase from 'firebase';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database'
 import { AngularFireAuth } from 'angularfire2/auth';
-
-
 import { SearchPage } from '../search/search';
 import { SubjectProvider } from '../../providers/subject-service/subject-service';
 import { ProfilePage } from '../profile/profile';
