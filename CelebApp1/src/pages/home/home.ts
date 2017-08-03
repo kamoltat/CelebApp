@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Component, NgZone, OnInit, } from '@angular/core';
+=======
+import { Component, NgZone, OnInit, Injectable } from '@angular/core';
+>>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
 import {IonicPage, NavController, NavParams,ToastController,ModalController,ActionSheetController,AlertController } from 'ionic-angular';
 import {UserServiceProvider} from '../../providers/user-service/user-service'
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -15,10 +19,14 @@ import{TempProfilePage} from '../temp-profile/temp-profile';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
+<<<<<<< HEAD
   providers: [ShareServiceProvider,SubjectProvider]
+=======
+  providers: [ShareServiceProvider]
+>>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
 })
 
-
+@Injectable()
 export class HomePage implements OnInit {
   public is_celeb:any;
   public list_following = new Array();
@@ -59,7 +67,11 @@ else{
 
 }
 
+<<<<<<< HEAD
  doRefresh(refresher) {
+=======
+doRefresh(refresher) {
+>>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
     console.log('Begin async operation', refresher);
     console.log("listPost:",this.list_posts)
     console.log("listPost:",this.list_posts)
@@ -141,6 +153,105 @@ clickLikeButton(p,e,uid){ //e in this function is the key of each post which we 
    console.log(inpUID);
    this._subjectProvider.setSubjUID(inpUID);
    this.navCtrl.push(TempProfilePage);
+<<<<<<< HEAD
+=======
+}
+
+showConfirmation(post_lists,post,postuid,postkey){
+let confirm = this.alertCtrl.create({
+      title: 'Delete This Post?',
+      message: 'Are you sure you want to delete this post?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+          var postRef = firebase.database().ref("posts/"+postuid+"/"+postkey);
+          postRef.once('value').then(snapshot =>{
+            var childData = snapshot.val();
+            if(childData.post_pic_url != ""){
+              var storageRef = firebase.storage().ref(childData.post_pic_url);
+              storageRef.delete();
+            }
+            postRef.remove();
+            var i = post_lists.indexOf(post);
+            post_lists.splice(i,1);
+          });
+
+          }
+        }
+      ]
+    });
+    confirm.present();
+}
+
+clickOptions(post_lists,post,postuid,postkey){
+  console.log(post_lists,post,postuid,postkey);
+  if(post.uid == this.currentuid.uid){
+  let actionSheet = this.actionSheetCtrl.create({
+      title: 'Your Post',
+      buttons: [
+        {
+          text: 'Edit',
+          handler: () => {
+            console.log('Browse clicked');
+          }
+        },{
+          text: 'Delete',
+          handler: () => {
+          actionSheet.onDidDismiss((()=>{
+            this.showConfirmation(post_lists,post,postuid,postkey);
+        }));
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+  else{
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'This Post',
+      buttons: [
+        {
+          text: 'Hide',
+          handler: () => {
+            console.log('Browse clicked');
+          }
+        },{
+          text: 'Report',
+          handler: () => {
+          actionSheet.onDidDismiss((()=>{
+        }));
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+    
+  }
+
+
+>>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
 }
 
 showConfirmation(post_lists,post,postuid,postkey){
@@ -239,6 +350,8 @@ clickOptions(post_lists,post,postuid,postkey){
 
 
 }
+
+
 
 
 
