@@ -35,7 +35,7 @@
 
  <ion-list>
     <ion-item>
-        <ion-item-sliding *ngFor="let item of idolArray">
+        <ion-item-sliding *ngFor="let item of idolArray; let i = is_following">
             <ion-item>
               <ion-thumbnail item-start>
                   <img [src]= "item.profile_pic_url">
@@ -47,7 +47,7 @@
               </button>
             </ion-item>
             <ion-item-options side="right">
-              <button ion-button (click)="followButtonFunc(item.idolKey, item)" color="default">
+              <button ion-button [style.background-color]="isUserFollowing(item.idolKey)" (click)="followButtonFunc(item.idolKey, item)">
                 <ion-icon name="follow"></ion-icon>
                 Follow
               </button>
