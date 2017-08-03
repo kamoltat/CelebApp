@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, } from '@angular/core';
+import { Component, NgZone, OnInit, Injectable } from '@angular/core';
 import {IonicPage, NavController, NavParams,ToastController,ModalController,ActionSheetController,AlertController } from 'ionic-angular';
 import {UserServiceProvider} from '../../providers/user-service/user-service'
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -15,10 +15,10 @@ import{TempProfilePage} from '../temp-profile/temp-profile';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [ShareServiceProvider,SubjectProvider]
+  providers: [ShareServiceProvider]
 })
 
-
+@Injectable()
 export class HomePage implements OnInit {
   public is_celeb:any;
   public list_following = new Array();
@@ -59,7 +59,7 @@ else{
 
 }
 
- doRefresh(refresher) {
+doRefresh(refresher) {
     console.log('Begin async operation', refresher);
     console.log("listPost:",this.list_posts)
     console.log("listPost:",this.list_posts)
@@ -158,7 +158,6 @@ let confirm = this.alertCtrl.create({
         {
           text: 'Yes',
           handler: () => {
-          
           var postRef = firebase.database().ref("posts/"+postuid+"/"+postkey);
           postRef.once('value').then(snapshot =>{
             var childData = snapshot.val();

@@ -117,7 +117,6 @@ export class TempProfilePage {
 
   loadProfile(){
     var root = 'users/';
-
     if(this.is_celeb){
       root = 'idols/';
     }
@@ -137,6 +136,14 @@ export class TempProfilePage {
       });
     });
   }
+
+  //---------------------------Junior------------------
+
+getUserPosts(){
+  
+}
+
+  //---------------------------------------------------
 
   ngOnInit(){
     this.subjUID = this.getSubjUID();
