@@ -39,20 +39,20 @@ export class ProfilePage implements OnInit {
     this.navCtrl.push(CreateProfilePage);
   }
 
-  setIsCeleb(e){
-  this.is_celeb = e;
+setIsCeleb(e){
+this.is_celeb = e;
 }
 
 isCurrentUserCeleb(){    //Check if current is idol or follower
-var user = firebase.auth().currentUser;
-if(user){
-firebase.database().ref().child("idols").on('value', snapshot =>{
-    this.setIsCeleb(snapshot.hasChild(user.uid));
-  })  
-}
-else{
-  this.navCtrl.setRoot(LoginPage);
-}
+  var user = firebase.auth().currentUser;
+  if(user){
+  firebase.database().ref().child("idols").on('value', snapshot =>{
+      this.setIsCeleb(snapshot.hasChild(user.uid));
+    })  
+  }
+  else{
+    this.navCtrl.setRoot(LoginPage);
+  }
 
 }
 

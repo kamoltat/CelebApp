@@ -29,6 +29,8 @@ export class SearchPage implements OnInit {
   public idolKey= new Array();
   public idolArray: any;
   public followData:any={};
+  // is_following:number;
+  idolUID:string;
 
   constructor(public navCtrl: NavController, public firebaseProvider: SearchProvider,
     public af: AngularFireModule, public zone:NgZone, public navParams: NavParams,
@@ -56,6 +58,7 @@ export class SearchPage implements OnInit {
     .then(snapshot => {
     snapshot.forEach(childSnapshot => {
       var key = childSnapshot.key;
+      this.idolUID = key
       // childData will be the actual contents of the child
       var childData = childSnapshot.val();
       temp.idolKey = key;
@@ -87,20 +90,6 @@ export class SearchPage implements OnInit {
     console.log('idolArray:',this.idolArray);
   } 
 
-  ////////////////////////////////////// Adding and removing items ////////////////////////////////////////
-  addItem() {
-    //this.firebaseProvider.addItem('');
-    var user = firebase.auth().currentUser;
-
-    firebase.database().ref("following").child(user.uid).push("hello")
-
-  }
- 
-  removeItem(id) {
-    this.firebaseProvider.removeItem(id);
-  }
-  ////////////////////////////                   End                     ///////////////////////////////////
-
 
   //Initiate at Start of page
 
@@ -117,6 +106,7 @@ export class SearchPage implements OnInit {
   //Adding function to follow button
   followButtonFunc(idolKey:any,data:any){
     var user = firebase.auth().currentUser;
+    delete data.followColor;
     firebase.database().ref("following/").child(user.uid).child(idolKey).set(data);
     console.log(data);
   }
@@ -141,9 +131,57 @@ export class SearchPage implements OnInit {
     this.navCtrl.push(TempProfilePage);
   }
 
+  setIsFollowing(e){
+    // this.is_following = e;
+    return e
+  }
+
+  isUserFollowing(key){
+    console.log("im in isUserFollowing");
+    var is_following
+    var user = firebase.auth().currentUser;
+    firebase.database().ref("following").child(user.uid).on('value', snapshot =>{
+     
+    is_following = this.setIsFollowing(snapshot.hasChild(key));
+    console.log("idolUID",key);
+    console.log("is user following function",is_following);
+      });
+    if(is_following){
+      return "green";
+    }
+    else{
+      return "default"
+    }
+  }
+
+  // setFollowColor(key){
+  //   this.isUserFollowing(key);
+  //   console.log()
+  //   var followColor:string;
+  //   followColor = "default";
+  //   if(this.is_following){
+  //     followColor = "light";
+  //     console.log(followColor);
+  //   }
+  //   return followColor
+  // }
+
   // navToUserProf(){
   //    this.navCtrl.push(tempProfilePage);
   // }
+  
+  ////////////////////////////////////// Adding and removing items ////////////////////////////////////////
+  addItem() {
+    //this.firebaseProvider.addItem('');
+    var user = firebase.auth().currentUser;
+
+    firebase.database().ref("following").child(user.uid).push("hello")
+
+  }
+ 
+  removeItem(id) {
+    this.firebaseProvider.removeItem(id);
+  }
+  ////////////////////////////                   End                     ///////////////////////////////////
+
 }
-
-
