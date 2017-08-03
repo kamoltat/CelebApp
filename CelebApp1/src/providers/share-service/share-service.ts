@@ -13,15 +13,6 @@ import 'rxjs/add/operator/map';
 export class ShareServiceProvider {
   public commentList;
   public postList;
-<<<<<<< HEAD
-
-
-  constructor(public http: Http, public zone:NgZone) {
-    console.log('Hello ShareServiceProvider Provider');
-    this.commentList = Array();
-    this.postList = new Array();
-    
-=======
   public userPost;
 
   constructor(public http: Http, public zone:NgZone) {
@@ -29,7 +20,6 @@ export class ShareServiceProvider {
     this.commentList = new Array();
     this.postList = new Array();
     this.userPost = new Array();
->>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
 
   }
 
@@ -37,20 +27,13 @@ export class ShareServiceProvider {
 
 
 setPostsByFollowingId(){
-<<<<<<< HEAD
-=======
   this.postList = new Array();
->>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
   var user = firebase.auth().currentUser;
   firebase.database().ref("following/"+user.uid).on('value',snapshot => {
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
     this.setPost(childKey);
-<<<<<<< HEAD
-    // this.updatePosts(childKey);
-=======
->>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
     return false;
     });
   });
@@ -59,17 +42,10 @@ setPostsByFollowingId(){
 setPost(e){
 // var user = firebase.auth().currentUser;
 firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value',snapshot => {
-<<<<<<< HEAD
-      snapshot.forEach(element => {
-      this.postList.pop();  
-      return false;
-    });
-=======
     //   snapshot.forEach(element => {
     //   this.postList.pop();
     //   return false;
     // });
->>>>>>> 0c74a2ad7dc8e937b6f29babcd7b60e26940b204
     
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
