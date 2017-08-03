@@ -1,5 +1,5 @@
 import { Component,NgZone,OnInit,Injectable } from '@angular/core';
-import { App,ToastController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { App,ToastController, IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseListObservable } from 'angularfire2/database';
 import firebase from 'firebase';
@@ -9,6 +9,7 @@ import { SearchPage } from '../search/search';
 import { SubjectProvider } from '../../providers/subject-service/subject-service';
 import { ProfilePage } from '../profile/profile';
 import { LoginPage } from '../login/login';
+import {CommentPage} from "../comment/comment";
 
 
 
@@ -18,9 +19,8 @@ import { LoginPage } from '../login/login';
   selector: 'page-temp-profile',
   templateUrl: 'temp-profile.html',
 })
+
 @Injectable()
-
-
 export class TempProfilePage {
   email:string;
   username:string;
@@ -36,11 +36,14 @@ export class TempProfilePage {
   public data:any={};
   refString = "following/"+this.subjUID;
   storageRef = firebase.storage().ref();
-
+  public subjectPost_list: any;
+  public currentU:any;
   
   constructor(public navCtrl: NavController, private _subjectProvider:SubjectProvider,public zone:NgZone,
               public appCtrl: App, private afDatabase: AngularFireDatabase, private afAuth: AngularFireAuth,
-              private toastCtrl:ToastController) {
+              private toastCtrl:ToastController, private actionSheetCtrl:ActionSheetController, private alertCtrl: AlertController) {
+                this.subjectPost_list = new Array();
+                this.currentU = firebase.auth().currentUser;
   }
 
   //Adding function to follow button
@@ -137,13 +140,199 @@ export class TempProfilePage {
     });
   }
 
-  //---------------------------Junior------------------
+  //---------------------------Junior---------------------------------------------------------
+  showConfirmation(post_lists,post,postuid,postkey){
+let confirm = this.alertCtrl.create({
+      title: 'Delete This Post?',
+      message: 'Are you sure you want to delete this post?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+          
+          var postRef = firebase.database().ref("posts/"+postuid+"/"+postkey);
+          postRef.once('value').then(snapshot =>{
+            var childData = snapshot.val();
+            if(childData.post_pic_url != ""){
+              var storageRef = firebase.storage().ref(childData.post_pic_url);
+              storageRef.delete();
+            }
+            postRef.remove();
+            var i = post_lists.indexOf(post);
+            post_lists.splice(i,1);
+          });
 
-getUserPosts(){
-  
+          }
+        }
+      ]
+    });
+    confirm.present();
 }
 
-  //---------------------------------------------------
+clickOptions(post_lists,post,postuid,postkey){
+  console.log(post_lists,post,postuid,postkey);
+  if(post.uid == this.currentU.uid){
+  let actionSheet = this.actionSheetCtrl.create({
+      title: 'Your Post',
+      buttons: [
+        {
+          text: 'Edit',
+          handler: () => {
+            console.log('Browse clicked');
+          }
+        },{
+          text: 'Delete',
+          handler: () => {
+          actionSheet.onDidDismiss((()=>{
+            this.showConfirmation(post_lists,post,postuid,postkey);
+        }));
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+  else{
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'This Post',
+      buttons: [
+        {
+          text: 'Hide',
+          handler: () => {
+            console.log('Browse clicked');
+          }
+        },{
+          text: 'Report',
+          handler: () => {
+          actionSheet.onDidDismiss((()=>{
+        }));
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+    
+  }
+}
+
+ togglelikes(p,e,uid){
+   var user = firebase.auth().currentUser;
+   var postRef = firebase.database().ref("posts/"+uid+"/"+e); 
+    postRef.transaction(post =>{
+    var i = this.subjectPost_list.indexOf(p);
+    console.log("p", p);
+    console.log("this", this.subjectPost_list);
+    console.log(this.subjectPost_list[p]);
+    if (post) {
+      if (post.likes && post.likes[user.uid]) {
+        post.likeCount--;
+        this.subjectPost_list[i].likeCount--;
+        post.likes[user.uid] = null;
+        this.subjectPost_list[i].likes[user.uid] =null;
+      } else {
+        post.likeCount++;
+        this.subjectPost_list[i].likeCount++;
+        if (!post.likes) {
+          post.likes = {};
+         this.subjectPost_list[i].likes = {};
+        }
+        this.subjectPost_list[i].likes[user.uid] = true;
+        post.likes[user.uid] = true;
+        
+      }
+    };
+    return post;
+},function(){},true);
+ }
+
+
+ clickComment(e,uid,post,listPost){
+   this.navCtrl.push(CommentPage,{
+     postid: e, 
+     postuid:uid,
+     post:post,
+     list_post:listPost });
+
+ }
+
+ getLikeColor(e){
+  if(e.likes){
+    if(e.likes[this.currentU.uid]){
+    return "green";
+    }
+  }
+    return "";
+ }
+
+
+clickLikeButton(p,e,uid){ //e in this function is the key of each post which we can get by clicking on the button, uid is the poster's uid
+  this.togglelikes(p,e,uid);
+}
+
+getSubjectPosts(){
+  console.log("I'm in getSubjectPosts")
+  var subjectPostsRef = firebase.database().ref("posts/"+this.subjUID);
+  subjectPostsRef.once('value', snapshot => {
+    snapshot.forEach(childSnapshot =>{
+    var childKey = childSnapshot.key;
+    var childData = childSnapshot.val();
+    firebase.storage().ref().child(childData['authorPicUrl'].toString()).getDownloadURL().then((url)=> 
+  {
+    this.zone.run(()=>{
+    childData['authorPicUrl'] = url;
+    }).catch(e => {
+    console.log(e);
+  });
+  }).catch(e => {
+    console.log(e);
+  });
+  if(childData['post_pic_url'] != ""){
+  firebase.storage().ref().child(childData['post_pic_url'].toString()).getDownloadURL().then((data) => 
+  {
+    this.zone.run(()=>{
+
+    childData['post_pic_url'] = data;
+    }).catch(e => {
+    console.log(e);
+  });
+  }).catch(e => {
+    console.log(e);
+  });
+  }
+  childData.timeStamp = new Date(childData.timeStamp).toLocaleDateString();
+  childData.key = childKey;
+  childData.uid = this.subjUID;
+  this.subjectPost_list.push(childData);
+
+  console.log("subjectPost:",this.subjectPost_list);
+    return false;
+    });
+    
+  })
+}
+
+  //--------------------------------------------------------------------------------------------------------------------
 
   ngOnInit(){
     this.subjUID = this.getSubjUID();
@@ -152,6 +341,7 @@ getUserPosts(){
     this.combineData();
     this.getFollowing();
     this.getFollowingArray();
+    this.getSubjectPosts();
   }
   
   ionViewDidLoad() {

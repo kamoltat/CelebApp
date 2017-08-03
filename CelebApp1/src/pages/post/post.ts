@@ -114,6 +114,9 @@ post(){
   }).catch(e => {
     console.log(e);
   });
+  postData.timeStamp = new Date(postData.timeStamp).toLocaleDateString();
+  postData['key'] = this.postkey;
+  postData['uid'] = user.uid;
   if(this.image != null){
     this.startUpload(postData);
   }
@@ -130,7 +133,8 @@ if(user&&user.email&&user.uid){
 firebase.database().ref('idols/' + user.uid).on('value', snapshot => {
 this.username = snapshot.val().username;
 this.authorPicUrl = snapshot.val().profile_pic_url;
-    });}
+    });
+}
   }
 
 }
