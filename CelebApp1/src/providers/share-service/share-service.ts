@@ -13,13 +13,13 @@ import 'rxjs/add/operator/map';
 export class ShareServiceProvider {
   public commentList;
   public postList;
-
+  public userPost;
 
   constructor(public http: Http, public zone:NgZone) {
     console.log('Hello ShareServiceProvider Provider');
-    this.commentList = Array();
+    this.commentList = new Array();
     this.postList = new Array();
-    
+    this.userPost = new Array();
 
   }
 
@@ -27,13 +27,13 @@ export class ShareServiceProvider {
 
 
 setPostsByFollowingId(){
+  this.postList = new Array();
   var user = firebase.auth().currentUser;
   firebase.database().ref("following/"+user.uid).on('value',snapshot => {
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
     this.setPost(childKey);
-    // this.updatePosts(childKey);
     return false;
     });
   });
@@ -42,10 +42,10 @@ setPostsByFollowingId(){
 setPost(e){
 // var user = firebase.auth().currentUser;
 firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value',snapshot => {
-      snapshot.forEach(element => {
-      this.postList.pop();  
-      return false;
-    });
+    //   snapshot.forEach(element => {
+    //   this.postList.pop();
+    //   return false;
+    // });
     
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
