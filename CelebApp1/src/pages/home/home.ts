@@ -27,7 +27,7 @@ export class HomePage implements OnInit {
   public image:any;
   public authorImage:any;
   public postImage:any;
-  public currentuid:any
+  public currentu:any
   
 
   
@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
   private afDatabase: AngularFireDatabase, private zone: NgZone,
   private modalCtrl:ModalController, private shareService:ShareServiceProvider, private _subjectProvider:SubjectProvider,
   private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController) {
-  this.currentuid = firebase.auth().currentUser;
+  this.currentu = firebase.auth().currentUser;
   this.shareService.setPostsByFollowingId();
  
 }
@@ -125,7 +125,7 @@ goToPost(){
 
  getLikeColor(e){
   if(e.likes){
-    if(e.likes[this.currentuid.uid]){
+    if(e.likes[this.currentu.uid]){
     return "green";
     }
   }
@@ -180,7 +180,7 @@ let confirm = this.alertCtrl.create({
 
 clickOptions(post_lists,post,postuid,postkey){
   console.log(post_lists,post,postuid,postkey);
-  if(post.uid == this.currentuid.uid){
+  if(post.uid == this.currentu.uid){
   let actionSheet = this.actionSheetCtrl.create({
       title: 'Your Post',
       buttons: [
@@ -236,8 +236,6 @@ clickOptions(post_lists,post,postuid,postkey){
     actionSheet.present();
     
   }
-
-
 }
 
 

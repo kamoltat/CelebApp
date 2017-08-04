@@ -18,7 +18,6 @@ export class ShareServiceProvider {
   constructor(public http: Http, public zone:NgZone) {
     console.log('Hello ShareServiceProvider Provider');
     this.commentList = new Array();
-    this.postList = new Array();
     this.userPost = new Array();
 
   }
@@ -29,7 +28,7 @@ export class ShareServiceProvider {
 setPostsByFollowingId(){
   this.postList = new Array();
   var user = firebase.auth().currentUser;
-  firebase.database().ref("following/"+user.uid).on('value',snapshot => {
+  firebase.database().ref("following/"+user.uid).once('value',snapshot => {
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
@@ -40,13 +39,7 @@ setPostsByFollowingId(){
 }
 
 setPost(e){
-// var user = firebase.auth().currentUser;
 firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value',snapshot => {
-    //   snapshot.forEach(element => {
-    //   this.postList.pop();
-    //   return false;
-    // });
-    
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();  

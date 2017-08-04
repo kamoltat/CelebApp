@@ -137,14 +137,13 @@ export class SearchPage implements OnInit {
   }
 
   isUserFollowing(key){
-    console.log("im in isUserFollowing");
+    
     var is_following
     var user = firebase.auth().currentUser;
     firebase.database().ref("following").child(user.uid).on('value', snapshot =>{
      
     is_following = this.setIsFollowing(snapshot.hasChild(key));
-    console.log("idolUID",key);
-    console.log("is user following function",is_following);
+   
       });
     if(is_following){
       return "green";
