@@ -8,48 +8,24 @@
 
 <ion-content padding>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  
-  <!--DEMONSTRATION ADD DIRECTLY (name only)TO DATABASE-->
-  <ion-row>
-    <ion-col col-9>
-      <ion-item>
-        <ion-input type="text" [(ngModel)]="newItem" placeholder="New Idol"></ion-input>
-      </ion-item>
-    </ion-col>
-    <ion-col>
-      <button ion-button (click)="addItem()">Add!</button>
-    </ion-col>
-  </ion-row>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of idolItems | async">
-      <ion-item>
-        {{ item.$value }}
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="danger" icon-only (click)="removeItem(item.$key)"><ion-icon name="trash"></ion-icon></button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-  <!--END OF DEMONSTRATION-->
-
 
  <ion-list>
     <ion-item>
-        <ion-item-sliding *ngFor="let item of idolArray; let i = is_following">
+        <ion-item-sliding *ngFor="let item of idolArray">
             <ion-item>
               <ion-thumbnail item-start>
                   <img [src]= "item.profile_pic_url">
               </ion-thumbnail>
               <h2>{{ item.username }}</h2>
               <p>{{ item.firstname }} {{ item.lastname }}</p>
-              <button ion-button clear item-end (click)="setSubjUID(item.idolKey)">
+              <button ion-button clear item-end (click)="navTempProf(item.idolKey)">
                 View
               </button>
             </ion-item>
             <ion-item-options side="right">
-              <button ion-button [style.background-color]="isUserFollowing(item.idolKey)" (click)="followButtonFunc(item.idolKey, item)">
+              <button ion-button [style.background-color]="setFollowStyle(item.idolKey)" (click)="followButtonFunc(item.idolKey, item)">
                 <ion-icon name="follow"></ion-icon>
-                Follow
+                {{ followStatus }}
               </button>
             </ion-item-options>
         </ion-item-sliding>
