@@ -23,14 +23,11 @@ import { SubjectProvider } from '../../providers/subject-service/subject-service
 export class SearchPage implements OnInit {
   searchQuery: string = '';
   newItem = '';
-  storageRef = firebase.storage().ref();
   image: any;
   public items = new Array();
-  public idolKey = new Array();
   public idolArray: any;
   public followData: any = {};
   followStatus:string;
-  // is_following:number;
   idolUID: string;
 
   constructor(public navCtrl: NavController, public searchProvider: SearchProvider,
@@ -39,63 +36,30 @@ export class SearchPage implements OnInit {
 
   }
 
-  //Getting idols from firebase
-  getIdols() {
-    var temp: any = {};
-    var query = firebase.database().ref("idols").orderByKey();
-    query.once("value")
-      .then(snapshot => {
-        snapshot.forEach(childSnapshot => {
-          var key = childSnapshot.key;
-          this.idolUID = key
-          // childData will be the actual contents of the child
-          var childData = childSnapshot.val();
-          temp.idolKey = key;
-          this.storageRef.child(childData['profile_pic_url']).getDownloadURL().then((url) => {
-            this.zone.run(() => {
-            childData['profile_pic_url'] = url;
-            }).catch(e => {
-              console.log("");
-            });
-          }).catch(e => {
-            console.log("");
-          });
-          //merge two objects together (this is to add idol Key into the object of the idol itself.)
-          var finalData = Object.assign(childData, temp);
-          delete finalData.password;
-          //pushing merged data to items
-          this.items.push(finalData);
-        }).catch(e => {
-          console.log("");
-        });
-      }).catch(e => {
-        console.log("");
-      });
+  setIdols(){
+    this.items = this.searchProvider.setIdols();
+    console.log("this.items setIdols()",this.items);
   }
-
 
   //Initiate Idol Array so that it doesnt get pushed multiple times
   getIdolArray() {
     this.idolArray = this.items;
   }
 
-
   //Initiate at Start of page
-
   ngOnInit() {
-    this.getIdols();
+    this.setIdols();
     this.getIdolArray();
   }
 
-  ionViewWillLoad() {}
-
+  // ionViewWillLoad() {}
 
   //Adding function to follow button
   followButtonFunc(idolKey: any, data: any) {
   this.searchProvider.followButtonFunc(idolKey,data);
   }
 
-  setSubjUID(inpUID) {
+  navTempProf(inpUID) {
     this._subjectProvider.setSubjUID(inpUID);
     this.navCtrl.push(TempProfilePage);
   }
@@ -116,7 +80,5 @@ export class SearchPage implements OnInit {
         return (item.username.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
-
   }
-
 }
