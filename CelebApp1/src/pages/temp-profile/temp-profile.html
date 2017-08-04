@@ -46,7 +46,55 @@
   <div [ngSwitch]="lowerProfile">
 
     <ion-card *ngSwitchDefault>
-      <h1>Posts here</h1>
+  <ion-list *ngIf ="subjectPost_list">
+
+  <ion-item *ngFor = "let post of subjectPost_list">
+  <ion-card>
+
+  <ion-item>
+    <ion-avatar item-start>
+      <img [src] ="post.authorPicUrl">
+    </ion-avatar>
+    <h2 (click) = "setSubjUID(post.uid)">{{post.author}}</h2>
+    <p>(location)</p> 
+    <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;"
+    (click) = "clickOptions(list_posts,post,post.uid, post.key)" >...</button>
+  </ion-item>
+  
+
+  <img *ngIf = "post.post_pic_url" [src]= "post.post_pic_url">
+
+  <ion-card-content>
+    <p>{{post.body}}</p>
+  </ion-card-content>
+
+  <ion-row>
+    <ion-col>
+      <button ion-button icon-left clear small [style.color] = "getLikeColor(post)" (click)= "clickLikeButton(post,post.key,post.uid)">
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>{{post.likeCount}} Likes</div>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button icon-left clear small (click)="clickComment(post.key,post.uid,post,subjectPost_list)"> 
+        <ion-icon name="text"></ion-icon>
+        <div>{{post.commentCount}} Comments</div>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button icon-left clear small> 
+        <ion-icon name="share"></ion-icon>
+        <div> Share</div>
+      </button>
+    </ion-col>
+    <ion-col center text-center>
+      <ion-note>{{post.timeStamp}}</ion-note>
+    </ion-col>
+  </ion-row>
+
+</ion-card>
+  </ion-item>
+  </ion-list>
     </ion-card>
 
     <ion-card *ngSwitchCase="'quests'">
