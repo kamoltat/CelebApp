@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ShareServiceProvider {
   public commentList;
-  public postList;
+  public postList:Array<any>;
   public userPost;
 
   constructor(public http: Http, public zone:NgZone) {
@@ -43,13 +43,13 @@ firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value',snaps
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();  
-  
+    console.log("99999999999999999",childData);
     firebase.storage().ref().child(childData['authorPicUrl'].toString()).getDownloadURL().then((url)=> 
   {
     this.zone.run(()=>{
     childData['authorPicUrl'] = url;
     
-    }).catch(e => {
+    }).catch(e => { 
     console.log(e);
     
   });
@@ -73,7 +73,6 @@ firebase.database().ref("posts/"+e).orderByChild("timeStamp").once('value',snaps
   childData.key = childKey;
   childData.uid = e;
   this.postList.push(childData);
-
   console.log(this.postList)
   return false;
     }); 

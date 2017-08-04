@@ -48,7 +48,7 @@
     <ion-card *ngSwitchDefault>
   <ion-list *ngIf ="subjectPost_list">
 
-  <ion-item *ngFor = "let post of subjectPost_list">
+  <ion-item *ngFor = "let post of subjectPost_list.reverse()">
   <ion-card>
 
   <ion-item>
