@@ -28,7 +28,7 @@ export class ShareServiceProvider {
 setPostsByFollowingId(){
   this.postList = new Array();
   var user = firebase.auth().currentUser;
-  firebase.database().ref("following/"+user.uid).on('value',snapshot => {
+  firebase.database().ref("following/"+user.uid).once('value',snapshot => {
     snapshot.forEach(childSnapshot =>{
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();

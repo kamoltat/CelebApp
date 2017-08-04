@@ -140,8 +140,8 @@ export class TempProfilePage {
     });
   }
 
-  //---------------------------Junior---------------------------------------------------------
-  showConfirmation(post_lists,post,postuid,postkey){
+  //---------------------------Posts tab--------------------------------------------------------------------------
+showConfirmation(post_lists,post,postuid,postkey){
 let confirm = this.alertCtrl.create({
       title: 'Delete This Post?',
       message: 'Are you sure you want to delete this post?',
@@ -290,49 +290,9 @@ clickLikeButton(p,e,uid){ //e in this function is the key of each post which we 
   this.togglelikes(p,e,uid);
 }
 
-getSubjectPosts(){
-  console.log("I'm in getSubjectPosts")
-  var subjectPostsRef = firebase.database().ref("posts/"+this.subjUID);
-  subjectPostsRef.once('value', snapshot => {
-    snapshot.forEach(childSnapshot =>{
-    var childKey = childSnapshot.key;
-    var childData = childSnapshot.val();
-    firebase.storage().ref().child(childData['authorPicUrl'].toString()).getDownloadURL().then((url)=> 
-  {
-    this.zone.run(()=>{
-    childData['authorPicUrl'] = url;
-    }).catch(e => {
-    console.log(e);
-  });
-  }).catch(e => {
-    console.log(e);
-  });
-  if(childData['post_pic_url'] != ""){
-  firebase.storage().ref().child(childData['post_pic_url'].toString()).getDownloadURL().then((data) => 
-  {
-    this.zone.run(()=>{
 
-    childData['post_pic_url'] = data;
-    }).catch(e => {
-    console.log(e);
-  });
-  }).catch(e => {
-    console.log(e);
-  });
-  }
-  childData.timeStamp = new Date(childData.timeStamp).toLocaleDateString();
-  childData.key = childKey;
-  childData.uid = this.subjUID;
-  this.subjectPost_list.push(childData);
 
-  console.log("subjectPost:",this.subjectPost_list);
-    return false;
-    });
-    
-  })
-}
-
-  //--------------------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------Posts Tab-----------------------------------------------------------------
 
   ngOnInit(){
     this.subjUID = this.getSubjUID();
@@ -341,7 +301,8 @@ getSubjectPosts(){
     this.combineData();
     this.getFollowing();
     this.getFollowingArray();
-    this.getSubjectPosts();
+    this._subjectProvider.setSubjectPosts(this.subjUID);
+    this.subjectPost_list = this._subjectProvider.getSubjectPosts();
   }
   
   ionViewDidLoad() {
