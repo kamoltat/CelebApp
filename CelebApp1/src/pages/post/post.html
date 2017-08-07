@@ -7,12 +7,11 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title text-center stack> Post </ion-title>
-    <ion-buttons>
-        <button ion-button style="float: left; text-align: left" (click) = "closePostPage()">Cancel</button>
-        <button ion-button style="float: right; text-align: right" (click) = "post()">Post</button>
-    </ion-buttons>
-    
+    <ion-row>
+        <button ion-button clear style="float: left; text-align: left" (click) = "closePostPage()">Cancel</button>
+        <ion-title text-center stack> Post </ion-title>
+        <button [class.hide] = "!text && !image" ion-button clear style="float: right; text-align: right" (click) = "post()">Post</button>
+    </ion-row>
   </ion-navbar>
 </ion-header>
 
@@ -26,8 +25,24 @@
   <ion-item>
         <ion-textarea type = "text" placeholder = "What's on your mind" [(ngModel)] = "text" value = ""></ion-textarea> 
   </ion-item>
-<div>
-    <input type="file" (change) ="selectfile($event)">
+<ion-row>
+<ion-col>
+<div class="image-upload">
+  <label for="file-input">
+    <ion-icon name = "image" style= "font-size: 50px;">
+    </ion-icon>
+  </label>
+    <input id="file-input" type="file" (change) ="selectfile($event)">
 </div>
-</ion-list>
+</ion-col>
+<ion-col>
+  <ion-icon name = "videocam" style= "font-size: 50px;">
+  </ion-icon>
+</ion-col>
+<ion-col>
+  <ion-icon name = "camera" style= "font-size: 50px;">
+  </ion-icon>
+</ion-col>
+</ion-row>
+  </ion-list>
 </ion-content>

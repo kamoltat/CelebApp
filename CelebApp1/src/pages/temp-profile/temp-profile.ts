@@ -319,6 +319,12 @@ export class TempProfilePage {
     this.subjectPost_list = this._subjectProvider.getSubjectPosts();
   }
 
+  setSubjUID(inpUID){
+   console.log(inpUID);
+   this._subjectProvider.setSubjUID(inpUID);
+   this.navCtrl.push(TempProfilePage);
+}
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad TempProfilePage');
   }

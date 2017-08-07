@@ -50,7 +50,7 @@
     <ion-card *ngSwitchDefault>
   <ion-list *ngIf ="subjectPost_list">
 
-  <ion-item *ngFor = "let post of subjectPost_list">
+  <ion-item *ngFor = "let post of subjectPost_list.reverse()">
   <ion-card>
 
   <ion-item>
@@ -60,7 +60,7 @@
     <h2 (click) = "setSubjUID(post.uid)">{{post.author}}</h2>
     <p>(location)</p> 
     <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;"
-    (click) = "clickOptions(list_posts,post,post.uid, post.key)" >...</button>
+    (click) = "clickOptions(subjectPost_list,post,post.uid, post.key)" >...</button>
   </ion-item>
   
 
