@@ -29,6 +29,7 @@ export class SearchPage implements OnInit {
   public followData: any = {};
   followStatus:string;
   idolUID: string;
+  refQuery= firebase.database().ref("idols").orderByKey();
 
   constructor(public navCtrl: NavController, public searchProvider: SearchProvider,
     public af: AngularFireModule, public zone: NgZone, public navParams: NavParams,
@@ -36,9 +37,8 @@ export class SearchPage implements OnInit {
 
   }
 
-  setIdols(){
-    this.items = this.searchProvider.setIdols();
-    console.log("this.items setIdols()",this.items);
+  setIdols(refQuery){
+    this.items = this.searchProvider.setRef(refQuery);
   }
 
   //Initiate Idol Array so that it doesnt get pushed multiple times
@@ -48,8 +48,9 @@ export class SearchPage implements OnInit {
 
   //Initiate at Start of page
   ngOnInit() {
-    this.setIdols();
+    this.setIdols(this.refQuery);
     this.getIdolArray();
+    console.log(this.idolArray);
   }
 
   // ionViewWillLoad() {}
