@@ -13,9 +13,9 @@
     <ion-item>
         <ion-item-sliding *ngFor="let item of idolArray">
             <ion-item>
-              <ion-thumbnail item-start>
+              <ion-avatar item-start>
                   <img [src]= "item.profile_pic_url">
-              </ion-thumbnail>
+              </ion-avatar>
               <h2>{{ item.username }}</h2>
               <p>{{ item.firstname }} {{ item.lastname }}</p>
               <button ion-button clear item-end (click)="navTempProf(item.idolKey)">

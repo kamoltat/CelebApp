@@ -17,15 +17,14 @@ export class SearchProvider {
 
   }
 
-  setIdols() {
-    this.getIdols();
+  setRef(refQuery) {
+    this.getRef(refQuery);
     return this.items
   }
 
-  getIdols() {
+  getRef(refQuery) {
     var temp: any = {};
-    var query = firebase.database().ref("idols").orderByKey();
-    query.once("value")
+    refQuery.once("value")
       .then(snapshot => {
         snapshot.forEach(childSnapshot => {
           var key = childSnapshot.key;
@@ -99,21 +98,9 @@ export class SearchProvider {
     return "";
   }
 
-  getIdolArray() {
-    this.getIdols();
+  getIdolArray(setRef) {
+    this.getRef(setRef);
     this.idolArray = this.items;
-  }
-
-  //Search Function
-  getItems(ev: any) {
-    this.getIdolArray();
-    let val = ev.target.value;
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.idolArray = this.idolArray.filter((item, username) => {
-        return (item.username.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
   }
 
 
