@@ -19,7 +19,9 @@
   <ion-card padding>
     <ion-item>
       <h2>{{firstname}} {{lastname}}</h2>
-      <button ion-button item-end outline (click)="followButtonFunc()">follow</button>
+      <button ion-button item-end outline [style.color]="setFollowStyle()" (click)="followButtonFunc()">
+        {{followStatus}}
+      </button>
     </ion-item>
     <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
     : 200px; width: 200px; "/>
@@ -126,9 +128,9 @@
               </button>
             </ion-item>
             <ion-item-options side="right">
-              <button ion-button  color="default">
+              <button ion-button [style.background-color]="setFollowStyle()" (click)="followButtonFunc()">
                 <ion-icon name="follow"></ion-icon>
-                Follow
+                {{followStatus}}
               </button>
             </ion-item-options>
         </ion-item-sliding>
