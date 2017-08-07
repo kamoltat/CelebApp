@@ -304,6 +304,11 @@ clickLikeButton(p,e,uid){ //e in this function is the key of each post which we 
     this._subjectProvider.setSubjectPosts(this.subjUID);
     this.subjectPost_list = this._subjectProvider.getSubjectPosts();
   }
+  setSubjUID(inpUID){
+   console.log(inpUID);
+   this._subjectProvider.setSubjUID(inpUID);
+   this.navCtrl.push(TempProfilePage);
+}
   
   ionViewDidLoad() {
     console.log('ionViewDidLoad TempProfilePage');
