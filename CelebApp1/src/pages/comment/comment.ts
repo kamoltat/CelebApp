@@ -32,7 +32,7 @@ export class CommentPage implements OnInit {
   public is_celeb:any;
   public root = "users/";
   public imageRoot = "user_profile/";
-  public timeStamp = Date.now();
+  public timeStamp:any;
   public listComment = new Array();
   private postObject:any;
   public currentUserId:any;
@@ -48,6 +48,7 @@ export class CommentPage implements OnInit {
      this.listPost = navParams.get('list_post');
      this.shareService.setCommentPosts(this.postuid,this.postid);
      this.currentUserId = firebase.auth().currentUser.uid;
+     this.timeStamp = Date.now();
   
   }
 
@@ -145,6 +146,8 @@ postClicked(){
   }).catch(e => {
     console.log(e);
   });
+   
+    commentObject['timeStamp'] = new Date(commentObject['timeStamp']).toLocaleDateString()
     this.listComment.push(commentObject)
     }
     return post;

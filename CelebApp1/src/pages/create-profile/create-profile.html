@@ -10,7 +10,7 @@
   : 200px; width: 200px; "/>
   <img [src]="image" *ngIf = "image" style="margin:auto; margin-top: 20px; border-radius:500px; height
   : 200px; width: 200px; ">
-    <input *ngIf = "browse"  type="file" (change) ="selectfile($event)" >
+    <input id= "fileupload" style = "display: none;" type="file" (change) ="selectfile($event)" >
     </ion-item>
     <ion-item>
         <ion-label floating><ion-icon name = "information-circle"></ion-icon> About</ion-label>

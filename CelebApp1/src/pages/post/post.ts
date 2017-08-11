@@ -29,6 +29,7 @@ export class  PostPage {
   public timeStamp: any;
   public authorPicUrl:any;
   private listPosts:any;
+  video: any;
 
   constructor(public navCtrl: NavController, public navParams:NavParams,
   public userProvider: UserServiceProvider, 
@@ -39,6 +40,7 @@ export class  PostPage {
   this.timeStamp = Date.now();
   this.postkey = firebase.database().ref('post/'+user.uid).push().key;
   this.listPosts = this.navParams.get('list_posts');
+  
 }
   closePostPage(){
     this.ViewCtrl.dismiss();
@@ -49,22 +51,31 @@ export class  PostPage {
   }
 
   selectfile(e){
+   this.image = null;
+   this.video = null;
    this.file = e.target.files[0]
+   if(!this.file.type.includes("video/") && !this.file.type.includes("image/")){
+      alert("Please insert only video or image");
+   }else{
    this.readPhoto(this.file);
-}
+   console.log(this.file);
+   }
 
+}
+ 
 startUpload(postData){
   var user = firebase.auth().currentUser;
+  if(this.image != null){
   this.storageRef.child('image/posts/'+user.uid+'/'+this.postkey+'/post_pic').put(this.file).
   then((snapshot) =>{
     alert("upload " + this.file.name+" success!");
     var user = firebase.auth().currentUser;
-    firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/post_pic_url').set('image/posts/'+user.uid+'/'+this.postkey+'/post_pic');
+    firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/post_pic_path').set('image/posts/'+user.uid+'/'+this.postkey+'/post_pic');
     this.storageRef.child('image/posts/'+user.uid+'/'+this.postkey+'/post_pic').getDownloadURL().then((url)=> 
   {
     this.zone.run(()=>{
+    firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/post_pic_url').set(url);
     postData['post_pic_url'] = url;
-    
     }).catch(e => {
     console.log(e);
       
@@ -75,6 +86,34 @@ startUpload(postData){
     this.listPosts.push(postData);
     console.log(postData)
   });
+  }
+else if(this.video != null){
+  this.storageRef.child('video/posts/'+user.uid+'/'+this.postkey+'/post_vid').put(this.file).
+  then((snapshot) =>{
+    alert("upload " + this.file.name+" success!");
+    var user = firebase.auth().currentUser;
+    firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/file_type').set(this.file.type);
+    postData['file_type'] = this.file.type;
+    firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/post_vid_path').set('video/posts/'+user.uid+'/'+this.postkey+'/post_vid');
+    this.storageRef.child('video/posts/'+user.uid+'/'+this.postkey+'/post_vid').getDownloadURL().then((data)=> 
+  {
+    this.zone.run(()=>{
+    firebase.database().ref('posts/' + user.uid+'/'+this.postkey+'/post_vid_url').set(data);
+    postData['post_vid_url'] = data;
+    }).catch(e => {
+    console.log(e);
+  });
+  }).catch(e => {
+    console.log(e);
+  });
+    this.listPosts.push(postData);
+    console.log(postData)
+  });
+}
+
+
+
+
 }
 
 readPhoto(file){
@@ -82,11 +121,23 @@ readPhoto(file){
   reader.onload = (e) =>{
     this.zone.run(() => {
     let path:any = e.target;
+    if(this.file.type.includes("video/")){
+     console.log("it's a video");
+     this.image = null;
+     this.video = path.result;
+   }
+  else if(this.file.type.includes("image/")){
+    console.log("it's an image");
+    this.video = null;
     this.image = path.result;
+
+  }
+ 
     }); 
     
   }
   reader.readAsDataURL(file);
+  console.log(this.video)
 }
 
 post(){
@@ -95,6 +146,7 @@ post(){
     author: this.username,
     authorPicUrl: this.authorPicUrl,
     body: this.text,
+    commentCount: 0,
     likeCount: 0,
     post_pic_url: "",
     timeStamp: this.timeStamp,
@@ -117,7 +169,7 @@ post(){
   postData.timeStamp = new Date(postData.timeStamp).toLocaleDateString();
   postData['key'] = this.postkey;
   postData['uid'] = user.uid;
-  if(this.image != null){
+  if(this.image != null || this.video != null){
     this.startUpload(postData);
   }
   else{
@@ -130,10 +182,10 @@ post(){
 ionViewWillLoad(){
 var user = firebase.auth().currentUser;
 if(user&&user.email&&user.uid){
-firebase.database().ref('idols/' + user.uid).on('value', snapshot => {
+firebase.database().ref('idols/' + user.uid).once('value', snapshot => {
 this.username = snapshot.val().username;
 this.authorPicUrl = snapshot.val().profile_pic_url;
-    });
+  });
 }
   }
 

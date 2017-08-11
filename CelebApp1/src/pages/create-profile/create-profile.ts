@@ -29,7 +29,6 @@ export class CreateProfilePage implements OnInit {
   image: any;
   file: any;
   about:string;
-  public browse = false;
   public hide = false;
   public root = 'users/';
   is_celeb: any;
@@ -109,7 +108,7 @@ startUpload(){
   firebase.database().ref(this.root + user.uid +'/profile_pic_url').set("image/"+this.imageRoot+user.uid+'/'+"profile_pic").
   then(this.appCtrl.getRootNav().setRoot(TabsPage));
   });
-  firebase.database().ref("posts/"+user.uid).on('value', snapshot => {
+  firebase.database().ref("posts/"+user.uid).once('value', snapshot => {
   snapshot.forEach(childSnapshot => {
   var childKey = childSnapshot.key;
   firebase.database().ref("posts/" + user.uid +'/'+childKey +'/authorPicUrl').set("image/"+this.imageRoot+user.uid+'/'+"profile_pic");
@@ -181,7 +180,7 @@ editPhoto(){
         {
           text: 'Browse',
           handler: () => {
-            this.browse = true
+            document.getElementById('fileupload').click()
             console.log('Browse clicked');
           }
         },{
@@ -195,12 +194,13 @@ editPhoto(){
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            this.browse = false;
+            
             console.log('Cancel clicked');
           }
         }
       ]
     });
+    
     actionSheet.present();
   }
 
