@@ -1,31 +1,38 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title  text-center>{{username}}</ion-title> 
+    <ion-row>
+      <button ion-button clear *ngIf="userProfile" style="float: left; text-align: left" (click)="goToCreateProfile()"> 
+      <ion-icon name= "hammer"></ion-icon>
+      </button>
+      <ion-title text-center>{{username}}</ion-title>
+      <button ion-button clear *ngIf="userProfile" (click)="logUserOut()" style="float: right; text-align: right">
+        <ion-icon name="log-out"></ion-icon>
+        </button>
+    </ion-row>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-fab top right>
-  <button color="dark" ion-fab mini fab-content-margin><ion-icon name="add"></ion-icon></button>
-    <ion-fab-list>
-      <button ion-fab><ion-icon name="book"></ion-icon></button>
-      <button ion-fab><ion-icon name="checkbox"></ion-icon></button>
-    </ion-fab-list>
-  </ion-fab>
-
   <ion-card padding>
     <ion-item>
       <h2>{{firstname}} {{lastname}}</h2>
-      <button ion-button item-end outline [style.color]="setFollowStyle()" (click)="followButtonFunc()">
+      <button ion-button item-end outline *ngIf="!userProfile" [style.color]="setFollowStyle()" (click)="followButtonFunc()">
         {{followStatus}}
       </button>
     </ion-item>
-    <img [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
-    : 200px; width: 200px; "/>
+    <img [src]="profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
+    : 200px; width: 200px; " />
     <ion-card-title text-center>127,030</ion-card-title>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <p>
+        <ion-icon name="information-circle"></ion-icon> About</p>
+      <h3>{{about}}</h3>
+    </ion-card-content>
   </ion-card>
 
   <div padding>
@@ -48,55 +55,58 @@
   <div [ngSwitch]="lowerProfile">
 
     <ion-card *ngSwitchDefault>
-  <ion-list *ngIf ="subjectPost_list">
+      <ion-list *ngIf="subjectPost_list">
 
-  <ion-item *ngFor = "let post of subjectPost_list.reverse()">
-  <ion-card>
+        <ion-item *ngFor="let post of subjectPost_list.reverse()">
+          <ion-card>
 
-  <ion-item>
-    <ion-avatar item-start>
-      <img [src] ="post.authorPicUrl">
-    </ion-avatar>
-    <h2 (click) = "setSubjUID(post.uid)">{{post.author}}</h2>
-    <p>(location)</p> 
-    <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;"
-    (click) = "clickOptions(subjectPost_list,post,post.uid, post.key)" >...</button>
-  </ion-item>
-  
+            <ion-item>
+              <ion-avatar item-start>
+                <img [src]="post.authorPicUrl">
+              </ion-avatar>
+              <h2 (click)="setSubjUID(post.uid)">{{post.author}}</h2>
 
-  <img *ngIf = "post.post_pic_url" [src]= "post.post_pic_url">
+              <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;" (click)="clickOptions(subjectPost_list,post,post.uid, post.key)">...</button>
+            </ion-item>
 
-  <ion-card-content>
-    <p>{{post.body}}</p>
-  </ion-card-content>
 
-  <ion-row>
-    <ion-col>
-      <button ion-button icon-left clear small [style.color] = "getLikeColor(post)" (click)= "clickLikeButton(post,post.key,post.uid)">
+            <img *ngIf="post.post_pic_url" [src]="post.post_pic_url">
+            <ion-item *ngIf="post.post_vid_url">
+              <video controls width="300" height="300">
+                <source [src]="post.post_vid_url" [type]="post.file_type"> Your browser does not support the video tag.
+              </video>
+            </ion-item>
+            <ion-card-content>
+              <p>{{post.body}}</p>
+            </ion-card-content>
+
+            <ion-row>
+              <ion-col>
+                <button ion-button icon-left clear small [style.color]="getLikeColor(post)" (click)="clickLikeButton(post,post.key,post.uid)">
         <ion-icon name="thumbs-up"></ion-icon>
         <div>{{post.likeCount}} Likes</div>
       </button>
-    </ion-col>
-    <ion-col>
-      <button ion-button icon-left clear small (click)="clickComment(post.key,post.uid,post,subjectPost_list)"> 
+              </ion-col>
+              <ion-col>
+                <button ion-button icon-left clear small (click)="clickComment(post.key,post.uid,post,subjectPost_list)"> 
         <ion-icon name="text"></ion-icon>
         <div>{{post.commentCount}} Comments</div>
       </button>
-    </ion-col>
-    <ion-col>
-      <button ion-button icon-left clear small> 
+              </ion-col>
+              <ion-col>
+                <button ion-button icon-left clear small> 
         <ion-icon name="share"></ion-icon>
         <div> Share</div>
       </button>
-    </ion-col>
-    <ion-col center text-center>
-      <ion-note>{{post.timeStamp}}</ion-note>
-    </ion-col>
-  </ion-row>
+              </ion-col>
+              <ion-col center text-center>
+                <ion-note>{{post.timeStamp}}</ion-note>
+              </ion-col>
+            </ion-row>
 
-</ion-card>
-  </ion-item>
-  </ion-list>
+          </ion-card>
+        </ion-item>
+      </ion-list>
     </ion-card>
 
     <ion-card *ngSwitchCase="'quests'">
@@ -119,7 +129,7 @@
           <ion-item-sliding *ngFor="let item of followingArr">
             <ion-item>
               <ion-thumbnail item-start>
-                  <img [src]= "item.profile_pic_url">
+                <img [src]="item.profile_pic_url">
               </ion-thumbnail>
               <h2>{{ item.username }}</h2>
               <p>{{ item.firstname }} {{ item.lastname }}</p>
@@ -133,9 +143,9 @@
                 {{followStatus}}
               </button>
             </ion-item-options>
-        </ion-item-sliding>
-      </ion-item>
-    </ion-list>
+          </ion-item-sliding>
+        </ion-item>
+      </ion-list>
     </ion-card>
 
   </div>

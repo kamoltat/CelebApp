@@ -27,9 +27,9 @@ export class SearchPage implements OnInit {
   public items = new Array();
   public idolArray: any;
   public followData: any = {};
-  followStatus:string;
+  followStatus: string;
   idolUID: string;
-  refQuery= firebase.database().ref("idols").orderByKey();
+  refQuery = firebase.database().ref("idols").orderByKey();
 
   constructor(public navCtrl: NavController, public searchProvider: SearchProvider,
     public af: AngularFireModule, public zone: NgZone, public navParams: NavParams,
@@ -37,7 +37,7 @@ export class SearchPage implements OnInit {
 
   }
 
-  setIdols(refQuery){
+  setIdols(refQuery) {
     this.items = this.searchProvider.setRef(refQuery);
   }
 
@@ -57,7 +57,7 @@ export class SearchPage implements OnInit {
 
   //Adding function to follow button
   followButtonFunc(idolKey: any, data: any) {
-  this.searchProvider.followButtonFunc(idolKey,data);
+    this.searchProvider.followButtonFunc(idolKey, data);
   }
 
   navTempProf(inpUID) {
@@ -65,10 +65,10 @@ export class SearchPage implements OnInit {
     this.navCtrl.push(TempProfilePage);
   }
 
-  setFollowStyle(key){
-    var color:string = this.searchProvider.setFollowColor(key);
+  setFollowStyle(key) {
+    var color: string = this.searchProvider.setFollowColor(key);
     this.followStatus = this.searchProvider.setFollowStatus(key);
-    return color
+    return color;
   }
 
   //Search Function
