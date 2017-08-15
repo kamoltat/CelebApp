@@ -126,7 +126,7 @@
     <ion-card *ngSwitchCase="'following'">
       <ion-list>
         <ion-item>
-          <ion-item-sliding *ngFor="let item of followingArr">
+          <ion-item-sliding *ngFor="let item of scrollItems">
             <ion-item>
               <ion-thumbnail item-start>
                 <img [src]="item.profile_pic_url">
@@ -143,9 +143,16 @@
                 {{followStatus}}
               </button>
             </ion-item-options>
-          </ion-item-sliding>
-        </ion-item>
-      </ion-list>
+
+        </ion-item-sliding>
+      </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="loadContents($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+
     </ion-card>
 
   </div>

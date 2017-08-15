@@ -34,9 +34,15 @@ export class TempProfilePage {
   profile_pic_url: any;
   is_celeb: any;
   subjUID: any;
+
   public following = new Array();
   public followingArr = new Array();
+  public scrollItems = new Array();
   public data: any = {};
+
+  public arrLength: any;
+  public counter: any;
+
   refString = "following/" + this.subjUID;
   storageRef = firebase.storage().ref();
   public subjectPost_list: any;
@@ -78,10 +84,17 @@ export class TempProfilePage {
     this.navCtrl.push(CreateProfilePage);
   }
 
-  //Adding function to follow button
-  followButtonFunc() {
-    this.searchProvider.followButtonFunc(this.subjUID, this.data);
-  }
+
+
+  ngOnInit() {
+    this.subjUID = this.getSubjUID();
+    this.isCurrentUserCeleb();
+    this.loadProfile();
+    this.combineData();
+    this.getFollowing();
+    this.promiseArray();
+    this._subjectProvider.setSubjectPosts(this.subjUID);
+    this.subjectPost_list = this._subjectProvider.getSubjectPosts();
 
   //combine data to put into following database
   combineData() {
@@ -97,6 +110,7 @@ export class TempProfilePage {
     var color: string = this.searchProvider.setFollowColor(this.subjUID);
     this.followStatus = this.searchProvider.setFollowStatus(this.subjUID);
     return color;
+
   }
 
   //get who the user is following and the data in there.
@@ -133,8 +147,33 @@ export class TempProfilePage {
       });
   }
 
+  //Adding function to follow button
+  followButtonFunc() {
+    this.searchProvider.followButtonFunc(this.subjUID, this.data);
+  }
+
+  //combine data to put into following database
+  combineData() {
+    this.data.about = this.about;
+    this.data.email = this.email;
+    this.data.firstname = this.firstname;
+    this.data.lastname = this.lastname;
+    this.data.profile_pic_url = this.profile_pic_url;
+    this.data.username = this.username;
+  }
+
+  setFollowStyle() {
+    var color: string = this.searchProvider.setFollowColor(this.subjUID);
+    this.followStatus = this.searchProvider.setFollowStatus(this.subjUID);
+    return color
+  }
+
+
+
   getFollowingArray() {
     this.followingArr = this.following;
+    console.log("i am resolving:",this.followingArr);
+    return this.followingArr
   }
 
   setIsCeleb(e) {
@@ -178,6 +217,104 @@ export class TempProfilePage {
     this._subjectProvider.setSubjUID(inpUID);
     this.navCtrl.push(TempProfilePage);
   }
+
+
+  //make sure that the idolsArr is generated before assigning the counter a value.
+  promiseArray() {
+    const promise = new Promise((resolve, reject) => {
+      resolve(this.getFollowingArray());
+    })
+    promise.then((res) => {
+      console.log("this.idolarray line 184", this.followingArr);
+      this.arrLength = this.following.length;
+      console.log("line 187 arrlength",this.arrLength);
+      this.counter = this.arrLength;
+      this.initialList();
+      console.log("this.counter:", this.counter);
+    })
+    promise.catch((err) => {
+    });
+  }
+
+  initialList() {
+    console.log("im in initial list");
+    console.log("this.arrLength 336", this.arrLength);
+    if (this.arrLength >= 4) {
+      console.log("intial list, im in if");
+      for (let i = 0; i < 4; i++) {
+        console.log("im in initial list if");
+        this.scrollItems.push(this.followingArr[this.scrollItems.length]);
+        this.counter--;
+        console.log("counter at line 343", this.counter);
+      }
+      console.log("scrollItems:", this.scrollItems);
+    }
+  }
+
+
+  setSubjUID(inpUID) {
+    console.log(inpUID);
+    this._subjectProvider.setSubjUID(inpUID);
+    this.navCtrl.push(TempProfilePage);
+  }
+  
+  getSubjUID(): string {
+    var temp = this._subjectProvider.getsubjUID();
+    console.log("getSubjUID in temp-profile", temp);
+    return this._subjectProvider.getsubjUID();
+  }
+
+  //load scroll contents
+  loadContents(event) {
+    console.log("load started");
+    setTimeout(() => {
+      console.log("counter at 379", this.counter);
+      if ((this.counter / 4) >= 1) {
+        for (let i = 0; i < 4; i++) {
+          this.scrollItems.push(this.followingArr[this.scrollItems.length]);
+          this.counter--;
+        }
+        //if at end of list (length) return false
+
+        console.log("load ended");
+        event.complete();
+      }
+      else {
+        if (this.counter > 0) {
+          console.log("else counter:", this.counter);
+          var tempCounter = this.counter;
+          for (let i = 0; i < tempCounter; i++) {
+            console.log("i 124", i);
+            this.scrollItems.push(this.followingArr[this.scrollItems.length]);
+            console.log("length scrollItems 121", this.scrollItems.length);
+            this.counter--;
+            console.log("counter 122", this.counter);
+          }
+          event.complete();
+
+        }
+        else {
+          event.complete();
+          event.enable(false);
+        }
+      }
+    }, 500)
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   //---------------------------Posts tab--------------------------------------------------------------------------
   showConfirmation(post_lists, post, postuid, postkey) {
@@ -337,32 +474,5 @@ export class TempProfilePage {
 
 
   //--------------------------------------------------Posts Tab-----------------------------------------------------------------
-
-  ngOnInit() {
-    this.subjUID = this.getSubjUID();
-    this.isCurrentUserCeleb();
-    this.loadProfile();
-    this.combineData();
-    this.getFollowing();
-    this.getFollowingArray();
-    this._subjectProvider.setSubjectPosts(this.subjUID);
-    this.subjectPost_list = this._subjectProvider.getSubjectPosts();
-  }
-
-  setSubjUID(inpUID) {
-    console.log(inpUID);
-    this._subjectProvider.setSubjUID(inpUID);
-    this.navCtrl.push(TempProfilePage);
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TempProfilePage');
-  }
-
-  getSubjUID(): string {
-    var temp = this._subjectProvider.getsubjUID();
-    console.log("getSubjUID in temp-profile", temp);
-    return this._subjectProvider.getsubjUID();
-  }
 
 }
