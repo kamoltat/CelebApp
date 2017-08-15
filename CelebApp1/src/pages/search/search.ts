@@ -32,8 +32,10 @@ export class SearchPage implements OnInit {
   followStatus: string;
   idolUID: string;
   refQuery = firebase.database().ref("idols").orderByKey();
+
   public counter: any;
   public arrLength: any;
+
 
   constructor(public navCtrl: NavController, public searchProvider: SearchProvider,
     public af: AngularFireModule, public zone: NgZone, public navParams: NavParams,
@@ -42,12 +44,13 @@ export class SearchPage implements OnInit {
   }
 
 
+
   //Initiate at Start of page
   ngOnInit() {
     this.setIdols(this.refQuery);
     this.promiseArray();
   }
-
+  
   setIdols(refQuery) {
     this.items = this.searchProvider.setRef(refQuery);
   }
@@ -150,7 +153,7 @@ export class SearchPage implements OnInit {
   setFollowStyle(key) {
     var color: string = this.searchProvider.setFollowColor(key);
     this.followStatus = this.searchProvider.setFollowStatus(key);
-    return color
+    return color;
   }
 
   // setdisplayItems(){

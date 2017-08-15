@@ -29,14 +29,14 @@ public is_celeb: boolean;
 
 
 
-signUpUser(email: string,password: string,username: string,firstname:string,lastname:string){
+signUpUser(email: string,password: string,username: string,firstname:string,lastname:string): any{
   return this.fireAuth.createUserWithEmailAndPassword(email, password).
   then((newUser) => {
     //sign in the user
-      this.fireAuth.signInWithEmailAndPassword(email, password).then((
+      return this.fireAuth.signInWithEmailAndPassword(email, password).then((
       authenticatedUser) => {
         //sucessfully login, create user profile
-        this.userProfile.child(authenticatedUser.uid).set({
+        return this.userProfile.child(authenticatedUser.uid).set({
           email:email,
           password: password,
           username: username,
@@ -49,11 +49,18 @@ signUpUser(email: string,password: string,username: string,firstname:string,last
   });
 }
 loginUser(email: string, password: string): any{
+  console.log("loginUser")
   return this.fireAuth.signInWithEmailAndPassword(email, password);
 }
-logoutUser(): firebase.Promise<void>{
+logoutUser(): firebase.Promise<any>{
+  console.log("in logoutUser()")
+  if(firebase.auth().currentUser){
   firebase.database().ref('/users').child(firebase.auth().currentUser.uid).off();
   return this.fireAuth.signOut();
+  }
+  else{
+
+  }
   //redirection
 }
 

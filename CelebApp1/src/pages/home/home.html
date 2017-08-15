@@ -1,72 +1,77 @@
 <ion-header>
   <ion-navbar>
     <ion-title text-center>Homepage</ion-title>
-  </ion-navbar> 
+  </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding overflow-scroll="true" >
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-
+      
   <ion-fab bottom right>
-    <button ion-fab *ngIf = "is_celeb" (click) = "goToPost()">
+    <button ion-fab *ngIf="is_celeb" (click)="goToPost()">
     <ion-icon name="create"></ion-icon>
     </button>
   </ion-fab>
-  
-  <ion-list *ngIf ="list_posts">
 
-  <ion-item *ngFor = "let post of list_posts.reverse()">
-  <ion-card>
+  <ion-list *ngIf="list_posts">
 
-  <ion-item>
-    <ion-avatar item-start>
-      <img [src] ="post.authorPicUrl">
-    </ion-avatar>
-    <h2 (click) = "setSubjUID(post.uid)">{{post.author}}</h2>
-    <p>(location)</p> 
-    <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;"
-    (click) = "clickOptions(list_posts,post,post.uid, post.key)" >...</button>
-  </ion-item>
-  
+    <ion-item *ngFor="let post of this.list_posts.sort(sortByTime).reverse()">
+      <ion-card>
 
-  <img *ngIf = "post.post_pic_url" [src]= "post.post_pic_url">
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="post.authorPicUrl">
+          </ion-avatar>
+          <h2 (click)="setSubjUID(post.uid)">{{post.author}}</h2>
+          <button ion-button clear small style="float: right; text-align: right;position:absolute; top:0; right:0;" (click)="clickOptions(list_posts,post,post.uid, post.key)">...</button>
+        </ion-item>
 
-  <ion-card-content>
-    <p>{{post.body}}</p>
-  </ion-card-content>
+        <img *ngIf="post.post_pic_url" [src]="post.post_pic_url">
 
-  <ion-row>
-    <ion-col>
-      <button ion-button icon-left clear small [style.color] = "getLikeColor(post)" (click)= "clickLikeButton(post,post.key,post.uid)">
+        <ion-item *ngIf="post.post_vid_url">
+        <div data-tap-disable="true">
+        <video preload controls height="300" width="300">
+            <source [src]= "post.post_vid_url" [type]= "post.file_type"> 
+              Your browser does not support the video tag.
+          </video> 
+        </div>
+        </ion-item>
+
+
+
+        <ion-card-content>
+          <p>{{post.body}}</p>
+        </ion-card-content>
+
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small [style.color]="getLikeColor(post)" (click)="clickLikeButton(post,post.key,post.uid)">
         <ion-icon name="thumbs-up"></ion-icon>
         <div>{{post.likeCount}} Likes</div>
       </button>
-    </ion-col>
-    <ion-col>
-      <button ion-button icon-left clear small (click)="clickComment(post.key,post.uid,post,list_posts)"> 
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left clear small (click)="clickComment(post.key,post.uid,post,list_posts)"> 
         <ion-icon name="text"></ion-icon>
         <div>{{post.commentCount}} Comments</div>
       </button>
-    </ion-col>
-    <ion-col>
-      <button ion-button icon-left clear small> 
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left clear small> 
         <ion-icon name="share"></ion-icon>
         <div> Share</div>
       </button>
-    </ion-col>
-    <ion-col center text-center>
-      <ion-note>{{post.timeStamp}}</ion-note>
-    </ion-col>
-  </ion-row>
+          </ion-col>
+          <ion-col center text-center>
+            <ion-note>{{post.timeStamp}}</ion-note>
+          </ion-col>
+        </ion-row>
 
-</ion-card>
-  </ion-item>
+      </ion-card>
+    </ion-item>
   </ion-list>
 
 </ion-content>
-
-

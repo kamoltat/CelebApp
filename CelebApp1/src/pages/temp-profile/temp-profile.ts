@@ -10,8 +10,9 @@ import { SubjectProvider } from '../../providers/subject-service/subject-service
 import { ProfilePage } from '../profile/profile';
 import { LoginPage } from '../login/login';
 import { CommentPage } from "../comment/comment";
+import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { SearchProvider } from "../../providers/search-service/search-service";
-
+import { CreateProfilePage } from '../create-profile/create-profile';
 
 
 
@@ -47,16 +48,42 @@ export class TempProfilePage {
   public subjectPost_list: any;
   public currentU: any;
   followStatus: string;
-  uid = firebase.auth().currentUser.uid
+  uid = firebase.auth().currentUser.uid;
+  userProfile: boolean;
 
 
   constructor(public navCtrl: NavController, private _subjectProvider: SubjectProvider, public zone: NgZone,
     public appCtrl: App, private afDatabase: AngularFireDatabase, private afAuth: AngularFireAuth,
     private toastCtrl: ToastController, private actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController,
-    private searchProvider: SearchProvider) {
+    private searchProvider: SearchProvider, private userService: UserServiceProvider) {
     this.subjectPost_list = new Array();
     this.currentU = firebase.auth().currentUser;
+    this.userProfile = this.isUserProfile();
+    console.log("I'm in temp-profule")
   }
+
+  isUserProfile() {
+
+    if (this.getSubjUID() == this.uid) {
+      return true;
+    }
+    else {
+      return false;
+    }
+
+  }
+
+  logUserOut() {
+    this.userService.logoutUser().then(() => {
+      this.appCtrl.getRootNav().setRoot(LoginPage);
+      //call user service
+    });
+  }
+  goToCreateProfile() {
+    //when click on edit button, this trigers
+    this.navCtrl.push(CreateProfilePage);
+  }
+
 
 
   ngOnInit() {
@@ -68,6 +95,22 @@ export class TempProfilePage {
     this.promiseArray();
     this._subjectProvider.setSubjectPosts(this.subjUID);
     this.subjectPost_list = this._subjectProvider.getSubjectPosts();
+
+  //combine data to put into following database
+  combineData() {
+    this.data.about = this.about;
+    this.data.email = this.email;
+    this.data.firstname = this.firstname;
+    this.data.lastname = this.lastname;
+    this.data.profile_pic_url = this.profile_pic_url;
+    this.data.username = this.username;
+  }
+
+  setFollowStyle() {
+    var color: string = this.searchProvider.setFollowColor(this.subjUID);
+    this.followStatus = this.searchProvider.setFollowStatus(this.subjUID);
+    return color;
+
   }
 
   //get who the user is following and the data in there.
@@ -294,8 +337,12 @@ export class TempProfilePage {
             postRef.once('value').then(snapshot => {
               var childData = snapshot.val();
               if (childData.post_pic_url != "") {
-                var storageRef = firebase.storage().ref(childData.post_pic_url);
+                var storageRef = firebase.storage().ref(childData.post_pic_path);
                 storageRef.delete();
+              }
+              if(childData.post_vid_url){
+                var vidStorageRef = firebase.storage().ref(childData.post_vid_path);
+                vidStorageRef.delete();
               }
               postRef.remove();
               var i = post_lists.indexOf(post);

@@ -28,7 +28,7 @@ export class LoginPage {
   public loadingCtrl:LoadingController, public AlertCtrl:AlertController,
   public toastCtrl: ToastController, public app:App) {
 
-  this.emailField = "chada@chada.com";
+  this.emailField = "junior@junior.com";
   this.passwordField = "password";
   
   }
@@ -47,6 +47,7 @@ export class LoginPage {
       title: 'Error Log in',
       subTitle: error.message,
       buttons: ['OK']
+
     });
     alert.present();
      this.navCtrl.setRoot(LoginPage);
@@ -67,6 +68,7 @@ export class LoginPage {
     let registerModal = this.modalCtrl.create(RegisterPage);
     registerModal.present();
   }
+  
   redirectToResetPage(){
     let prompt = this.AlertCtrl.create({
       title: 'Enter Your Email',
@@ -102,7 +104,6 @@ export class LoginPage {
                         buttons: ['OK']
                       });
                       alert.present(); 
-
               })
             },error =>{
               //alert("error logging in: " +error.message);

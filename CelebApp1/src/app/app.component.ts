@@ -32,12 +32,10 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       var user = firebase.auth().currentUser;
       if(user){
-            
             self.nav.setRoot(TabsPage);
-            self.nav.popToRoot;
+            
            }else{
             self.nav.setRoot(LoginPage);
-            self.nav.popToRoot;
           }
       statusBar.styleDefault();
       splashScreen.hide();
