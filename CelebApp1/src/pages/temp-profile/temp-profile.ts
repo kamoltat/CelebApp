@@ -95,6 +95,7 @@ export class TempProfilePage {
     this.promiseArray();
     this._subjectProvider.setSubjectPosts(this.subjUID);
     this.subjectPost_list = this._subjectProvider.getSubjectPosts();
+  }
 
   //combine data to put into following database
   combineData() {
@@ -151,23 +152,6 @@ export class TempProfilePage {
   followButtonFunc() {
     this.searchProvider.followButtonFunc(this.subjUID, this.data);
   }
-
-  //combine data to put into following database
-  combineData() {
-    this.data.about = this.about;
-    this.data.email = this.email;
-    this.data.firstname = this.firstname;
-    this.data.lastname = this.lastname;
-    this.data.profile_pic_url = this.profile_pic_url;
-    this.data.username = this.username;
-  }
-
-  setFollowStyle() {
-    var color: string = this.searchProvider.setFollowColor(this.subjUID);
-    this.followStatus = this.searchProvider.setFollowStatus(this.subjUID);
-    return color
-  }
-
 
 
   getFollowingArray() {
