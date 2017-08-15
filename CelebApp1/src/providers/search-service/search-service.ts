@@ -67,6 +67,11 @@ export class SearchProvider {
     return is_following
   }
 
+  getArrayLength(array:Array<any>){
+    var temp = array.length;
+    return temp
+  }
+
   followButtonFunc(idolKey: any, data: any) {
     var user = firebase.auth().currentUser;
     var ref = firebase.database().ref("following/").child(user.uid).child(idolKey)
@@ -97,12 +102,6 @@ export class SearchProvider {
     }
     return "";
   }
-
-  getIdolArray(setRef) {
-    this.getRef(setRef);
-    this.idolArray = this.items;
-  }
-
 
 }
 
