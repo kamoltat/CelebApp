@@ -92,10 +92,11 @@ export class TempProfilePage {
     this.loadProfile();
     this.combineData();
     this.getFollowing();
-    this.promiseArray();
+    this.getFollowingArray();
     this._subjectProvider.setSubjectPosts(this.subjUID);
     this.subjectPost_list = this._subjectProvider.getSubjectPosts();
   }
+
 
   //combine data to put into following database
   combineData() {
@@ -203,22 +204,6 @@ export class TempProfilePage {
   }
 
 
-  //make sure that the idolsArr is generated before assigning the counter a value.
-  promiseArray() {
-    const promise = new Promise((resolve, reject) => {
-      resolve(this.getFollowingArray());
-    })
-    promise.then((res) => {
-      console.log("this.idolarray line 184", this.followingArr);
-      this.arrLength = this.following.length;
-      console.log("line 187 arrlength",this.arrLength);
-      this.counter = this.arrLength;
-      this.initialList();
-      console.log("this.counter:", this.counter);
-    })
-    promise.catch((err) => {
-    });
-  }
 
   initialList() {
     console.log("im in initial list");
