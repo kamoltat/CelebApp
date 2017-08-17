@@ -8,7 +8,7 @@
     <ion-item text-center>
      <img *ngIf = "!image" (click) = "editPhoto()"  [src] = "profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
   : 200px; width: 200px; "/>
-  <img [src]="image" *ngIf = "image" style="margin:auto; margin-top: 20px; border-radius:500px; height
+  <img [src]="image" (click) = "editPhoto()" *ngIf = "image" style="margin:auto; margin-top: 20px; border-radius:500px; height
   : 200px; width: 200px; ">
     <input id= "fileupload" style = "display: none;" type="file" (change) ="selectfile($event)" >
     </ion-item>
