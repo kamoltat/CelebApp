@@ -10,7 +10,7 @@
     <ion-row>
         <button ion-button clear style="float: left; text-align: left" (click) = "closePostPage()">Cancel</button>
         <ion-title text-center stack> Post </ion-title>
-        <button [class.hide] = "!text && !image" ion-button clear style="float: right; text-align: right" (click) = "post()">Post</button>
+        <button [class.hide] = "!text && !image && !video" ion-button clear style="float: right; text-align: right" (click) = "post()">Post</button>
     </ion-row>
   </ion-navbar>
 </ion-header>
@@ -42,9 +42,9 @@
 </div>
 </ion-col>
 <ion-col>
-  <ion-icon name = "camera" style= "font-size: 50px;">
-  </ion-icon>
+  <ion-icon name = "camera" style= "font-size: 50px;" (click) = "cameraPhotoButton()"></ion-icon>
 </ion-col>
+
 </ion-row>
   </ion-list>
 </ion-content>
