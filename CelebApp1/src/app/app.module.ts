@@ -15,8 +15,7 @@ import { RegisterPage } from '../pages/register/register';
 import { CreateProfilePage } from "../pages/create-profile/create-profile";
 import { CommentPage } from "../pages/comment/comment";
 import { SettingsPage } from "../pages/settings/settings";
-
-
+import { NotificationsPage } from "../pages/notifications/notifications";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -50,7 +49,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     PostPage,
     TempProfilePage,
     CommentPage,
-    SettingsPage
+    SettingsPage,
+    NotificationsPage
 
 
 
@@ -84,7 +84,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     PostPage,
     TempProfilePage,
     CommentPage,
-    SettingsPage
+    SettingsPage,
+    NotificationsPage
 
 
   ],
