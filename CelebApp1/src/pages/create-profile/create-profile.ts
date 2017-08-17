@@ -87,7 +87,7 @@ selectfile(e){
 updatePosts(){
   console.log("updating posts")
   var user = firebase.auth().currentUser;
-  firebase.database().ref("posts/"+user.uid).on('value', snapshot => {
+  firebase.database().ref("posts/"+user.uid).once('value', snapshot => {
   snapshot.forEach(childSnapshot => {
   var childKey = childSnapshot.key;
   firebase.database().ref("posts/"+user.uid+'/'+childKey+ '/author').set(this.username);
@@ -220,9 +220,9 @@ updateProfile(){
   console.log("startupload()");
 }
 
-loadProfile(){
+loadProfile(  ){
 var user = firebase.auth().currentUser;
-firebase.database().ref(this.root + user.uid).on('value', snapshot => {
+firebase.database().ref(this.root + user.uid).once('value', snapshot => {
 this.username = snapshot.val().username;
 this.firstname = snapshot.val().firstname;
 this.lastname = snapshot.val().lastname;
