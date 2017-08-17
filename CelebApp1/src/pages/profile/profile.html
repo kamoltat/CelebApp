@@ -29,14 +29,22 @@
   </ion-fab>
 
   <ion-card padding>
-    <ion-item>
-      <h2>{{firstname}} {{lastname}}</h2>
+    <ion-slides>
+      <ion-slide>
+        <ion-item>
+          <h2>{{firstname}} {{lastname}}</h2>
 
-    </ion-item>
-    <img [src]="profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
+        </ion-item>
+        <img [src]="profile_pic" style="margin:auto; margin-top: 20px; border-radius:500px; height
     : 200px; width: 200px; " />
-    <ion-card-title text-center>127,030</ion-card-title>
+        <ion-card-title text-center>127,030</ion-card-title>
+      </ion-slide>
+      <ion-slide>
+        <h2>Achievement badges here</h2>
+      </ion-slide>
+    </ion-slides>
   </ion-card>
+
   <ion-card>
     <ion-card-content>
       <p>
