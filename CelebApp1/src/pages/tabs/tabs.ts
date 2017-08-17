@@ -5,6 +5,7 @@ import { ProfilePage } from '../profile/profile';
 import { HomePage } from '../home/home';
 import { TempProfilePage } from '../temp-profile/temp-profile';
 import { SubjectProvider } from '../../providers/subject-service/subject-service';
+import { SettingsPage } from '../settings/settings';
 import firebase from 'firebase';
 
 @Component({
@@ -13,9 +14,10 @@ import firebase from 'firebase';
 @Injectable()
 export class TabsPage {
 
-  tab1Root = HomePage;
-  tab2Root = SearchPage;
-  tab3Root = ProfilePage;
+  tab2Root = SearchPage;  
+  tab3Root = HomePage;
+  tab4Root = ProfilePage;
+  tab5Root = SettingsPage;
 
   constructor() {
 

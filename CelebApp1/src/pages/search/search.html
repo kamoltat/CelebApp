@@ -1,14 +1,12 @@
 <ion-header>
   <ion-navbar>
     <ion-title text-center>
-      Search
+      <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-
  <ion-list>
     <ion-item>
         <ion-item-sliding *ngFor="let item of scrollItems">

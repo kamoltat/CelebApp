@@ -13,15 +13,19 @@ import { TempProfilePage } from '../pages/temp-profile/temp-profile';
 import { SignupIdolPage } from '../pages/signup-idol/signup-idol';
 import { PostPage } from "../pages/post/post";
 import { RegisterPage } from '../pages/register/register';
-import {CreateProfilePage} from "../pages/create-profile/create-profile";
-import {CommentPage} from "../pages/comment/comment";
+import { CreateProfilePage } from "../pages/create-profile/create-profile";
+import { CommentPage } from "../pages/comment/comment";
+import { SettingsPage } from "../pages/settings/settings";
+
+
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
-import {AngularFireModule} from 'angularfire2';
-import {AngularFireAuthModule} from 'angularfire2/auth';
-import {AngularFireDatabaseModule} from 'angularfire2/database';
-import {FIREBASE_CONFIG} from "./app.firebase.config";
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { FIREBASE_CONFIG } from "./app.firebase.config";
 
 import * as firebase from 'firebase';
 
@@ -45,23 +49,24 @@ import { ShareServiceProvider } from '../providers/share-service/share-service';
     SignupIdolPage,
     PostPage,
     TempProfilePage,
-    CommentPage
+    CommentPage,
+    SettingsPage
 
- 
-    
+
+
 
   ],
 
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp,{tabsHideOnSubPages: true}),
+    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true }),
     HttpModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
 
-    
-    
+
+
 
   ],
   bootstrap: [IonicApp],
@@ -78,24 +83,25 @@ import { ShareServiceProvider } from '../providers/share-service/share-service';
     SignupIdolPage,
     PostPage,
     TempProfilePage,
-    CommentPage
-    
+    CommentPage,
+    SettingsPage
 
-    
-   
+
+
+
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserServiceProvider,
     IdolServiceProvider,
     SubjectProvider,
     ShareServiceProvider
 
-   
-    
+
+
 
   ]
 })
-export class AppModule {}
+export class AppModule { }
