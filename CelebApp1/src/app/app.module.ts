@@ -2,7 +2,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-
 import { SearchPage } from '../pages/search/search';
 import { ProfilePage } from '../pages/profile/profile';
 import { HomePage } from '../pages/home/home';
@@ -22,18 +21,19 @@ import { SettingsPage } from "../pages/settings/settings";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
 
 import * as firebase from 'firebase';
-
-
 import { IdolServiceProvider } from '../providers/idol-service/idol-service';
 import { SubjectProvider } from '../providers/subject-service/subject-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { ShareServiceProvider } from '../providers/share-service/share-service';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
 
 @NgModule({
   declarations: [
@@ -54,7 +54,6 @@ import { ShareServiceProvider } from '../providers/share-service/share-service';
 
 
 
-
   ],
 
   imports: [
@@ -64,6 +63,7 @@ import { ShareServiceProvider } from '../providers/share-service/share-service';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+ 
 
 
 
@@ -87,8 +87,6 @@ import { ShareServiceProvider } from '../providers/share-service/share-service';
     SettingsPage
 
 
-
-
   ],
   providers: [
     StatusBar,
@@ -97,7 +95,8 @@ import { ShareServiceProvider } from '../providers/share-service/share-service';
     UserServiceProvider,
     IdolServiceProvider,
     SubjectProvider,
-    ShareServiceProvider
+    ShareServiceProvider,
+    Camera
 
 
 
@@ -105,3 +104,4 @@ import { ShareServiceProvider } from '../providers/share-service/share-service';
   ]
 })
 export class AppModule { }
+
