@@ -16,11 +16,11 @@ export class NotificationsPage {
 
   initNotifItems() {
     this.notifItems = [
-      { name: 'Yasuo', source: 'img/yasuo.png', splash: 'img/yasuospl.jpg', status: 'The Unforgiven', 
+      { name: 'Yasuo', source: 'assets/picture/yasuo.png', splash: 'assets/picture/yasuospl.jpg', status: 'The Unforgiven', 
       action:'has posted a new quest!', notifImg:'' },
-      { name: 'Xayah', source: 'img/xayah.jpg', splash: 'img/xayahspl.jpg', status: 'The Rebel', 
+      { name: 'Xayah', source: 'assets/picture/xayah.jpg', splash: 'assets/picture/xayahspl.jpg', status: 'The Rebel', 
       action:'has posted a new image.', notifImg:'portrait-xayah.png' },
-      { name: 'Rakan', source: 'img/rakan.jpg', splash: 'img/rakanspl.jpg', status: 'The Charmer', 
+      { name: 'Rakan', source: 'assets/picture/rakan.jpg', splash: 'assets/picture/rakanspl.jpg', status: 'The Charmer', 
       action:'is currently broadcasting.', notifImg:'' }
     ]
   }
