@@ -65,9 +65,9 @@ export class SearchPage implements OnInit {
   initialList() {
     console.log("im in initial list");
     console.log("this.arrLength 63",this.arrLength);
-    if (this.arrLength >= 5) {
+    if (this.arrLength >= 8) {
       console.log("intial list, im in if");
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 8; i++) {
         console.log("im in initial list if");
         this.scrollItems.push(this.idolArray[this.scrollItems.length]);
         this.counter--;
@@ -105,10 +105,8 @@ export class SearchPage implements OnInit {
   loadContents(event) {
     console.log("load started");
     setTimeout(() => {
-      console.log("counter at 104", this.counter);
-      console.log("counter/5", (this.counter / 5));
-      if ((this.counter / 5) >= 1) {
-        for (let i = 0; i < 5; i++) {
+      if ((this.counter / 8) >= 1) {
+        for (let i = 0; i < 8; i++) {
           this.scrollItems.push(this.idolArray[this.scrollItems.length]);
           this.counter--;
         }
