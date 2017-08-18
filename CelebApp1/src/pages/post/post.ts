@@ -17,9 +17,11 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
  */
 @IonicPage()
 @Component({
+  
   selector: 'page-post',
   templateUrl: 'post.html',
   providers: [ShareServiceProvider]
+
 })
 
 export class  PostPage {
@@ -83,7 +85,8 @@ const options: CameraOptions = {
   allowEdit:true
 }
   this.camera.getPicture(options).then((imageData) => {
- // imageData is either a base64 encoded string or a file URI
+
+// imageData is either a base64 encoded string or a file URI
  // If it's base64:
  let base64Image = 'data:image/jpeg;base64,' + imageData;
  this.image = base64Image;
