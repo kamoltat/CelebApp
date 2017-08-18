@@ -359,7 +359,7 @@ export class ProfilePage implements OnInit {
 
   getSubjUID(): string {
     var temp = this._subjectProvider.getsubjUID();
-    console.log("getSubjUID in temp-profile", temp);
+    console.log("getSubjUID in profile page", temp);
     return this._subjectProvider.getsubjUID();
   }
 

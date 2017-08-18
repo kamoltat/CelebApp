@@ -74,8 +74,7 @@ export class SearchProvider {
 
   followButtonFunc(idolKey: any, data: any) {
     var user = firebase.auth().currentUser;
-    var ref = firebase.database().ref("following/").child(user.uid).child(idolKey)
-    var followRef = firebase.database().ref("following").child(user.uid);
+    var ref = firebase.database().ref("following/").child(user.uid).child(idolKey);
     delete data.followColor;
     var is_following = this.isFollowing(idolKey);
     if (is_following) {
